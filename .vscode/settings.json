@@ -1,0 +1,12 @@
+{
+    "calva.replConnectSequences": [
+        {
+            "projectType": "deps.edn",
+            "name": "makejack",
+            "cljsType": "none",
+            "menuSelections": {
+                "cljAliases": ["dev", "test", "+default"]
+            }
+        }
+    ]
+}
