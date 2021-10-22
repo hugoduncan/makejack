@@ -1,11 +1,38 @@
-{:aliases  {:dev {:extra-paths ["development/src"]
-                  :extra-deps {org.clojure/clojure {:mvn/version "1.10.3"}
-                               org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
+{:paths    []
+ :jvm-opts ["-Dclojure.main.report=stderr"]
+ :aliases
+ {:dev
+  {:extra-paths ["development/src"]
+   :extra-deps
+   {makejack/build               {:local/root "bases/build"}
+    makejack/tasks               {:local/root "bases/tasks"}
+    makejack/defaults            {:local/root "components/defaults"}
+    makejack/file-changed        {:local/root "components/file-changed"}
+    makejack/filesystem          {:local/root "components/filesystem"}
+    makejack/paths               {:local/root "components/path"}
+    makejack/poly                {:local/root "components/poly"}
+    makejack/project-data        {:local/root "components/project-data"}
+    makejack/target-doc          {:local/root "components/target-doc"}
+    makejack/verbose             {:local/root "components/verbose"}
+    org.clojure/clojure          {:mvn/version "1.10.3"}
+    org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}
+    rewrite-clj/rewrite-clj      {:mvn/version "1.0.699-alpha"}}
+   :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
 
-            :test {:extra-paths []}
+  :test {:extra-paths ["test"]
+         :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
+         :exec-fn     kaocha.runner/exec-fn
+         :exec-args   {}}
 
-            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                   :extra-deps {polyfy/polylith
-                                {:git/url   "https://github.com/polyfy/polylith"
-                                 :sha       "57e0217762c166a92b007736c198d100642e22c1"
-                                 :deps/root "projects/poly"}}}}}
+  :coverage {:extra-deps {cloverage/cloverage {:mvn/version "RELEASE"}}
+             :exec-fn    cloverage.coverage/run-project
+             :exec-args  {:src-ns-path   ["components/project-data/src"]
+                          :test-ns-path  ["components/project-data/test"]
+                          :ns-regex      ["makejack.*"]
+                          :test-ns-regex [".*-test"]}}
+
+  :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
+         :extra-deps {polyfy/polylith
+                      {:git/url   "https://github.com/polyfy/polylith"
+                       :sha       "57e0217762c166a92b007736c198d100642e22c1"
+                       :deps/root "projects/poly"}}}}}
