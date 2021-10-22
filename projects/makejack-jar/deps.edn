@@ -1,0 +1,32 @@
+{:deps
+ {org.clojure/clojure          {:mvn/version "1.10.3"}
+  org.clojure/tools.deps.alpha {:mvn/version "0.12.985"}
+  makejack/file-changed        {:local/root "../../components/file-changed"}
+  makejack/filesystem          {:local/root "../../components/filesystem"}
+  makejack/paths               {:local/root "../../components/path"}
+  makejack/poly                {:local/root "../../components/poly"}
+  makejack/project-coords      {:local/root "../../components/project-coords"}
+  makejack/target-doc          {:local/root "../../components/target-doc"}}
+
+ ;; :paths
+ ;; ["../../components/file-changed/src"
+ ;;  "../../components/filesystem/src"
+ ;;  "../../components/path/src"
+ ;;  "../../components/project-coords/src"
+ ;;  "../../components/target-doc/src"]
+
+ :aliases
+ {:test {:extra-paths []
+         :extra-deps  {}}
+  :build
+  {:deps
+   {makejack/build          {:local/root "../../bases/build"}
+    makejack/file-changed   {:local/root "../../components/file-changed"}
+    makejack/filesystem     {:local/root "../../components/filesystem"}
+    makejack/paths          {:local/root "../../components/path"}
+    makejack/poly           {:local/root "../../components/poly"}
+    makejack/project-coords {:local/root "../../components/project-coords"}
+    makejack/target-doc     {:local/root "../../components/target-doc"}}
+   :paths      []
+   :ns-default makejack.build.targets
+   }}}

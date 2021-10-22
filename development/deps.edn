@@ -1,0 +1,2 @@
+{:deps {makejack/path {:local/root "../components/path"}
+        makejack/filesystem {:local/root "../components/filesystem"}}}

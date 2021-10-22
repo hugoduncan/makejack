@@ -1,11 +1,22 @@
-{:aliases  {:dev {:extra-paths ["development/src"]
-                  :extra-deps {org.clojure/clojure {:mvn/version "1.10.3"}
-                               org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}}
+{:paths []
+ :aliases
+ {:dev
+  {:extra-paths ["development/src"]
+   :extra-deps
+   {makejack/build               {:local/root "bases/build"}
+    makejack/file-changed        {:local/root "components/file-changed"}
+    makejack/filesystem          {:local/root "components/filesystem"}
+    makejack/paths               {:local/root "components/path"}
+    makejack/poly                {:local/root "components/poly"}
+    makejack/project-coords      {:local/root "components/project-coords"}
+    makejack/target-doc          {:local/root "components/target-doc"}
+    org.clojure/clojure          {:mvn/version "1.10.3"}
+    org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}}
+   :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
+  :test {:extra-paths []}
 
-            :test {:extra-paths []}
-
-            :poly {:main-opts ["-m" "polylith.clj.core.poly-cli.core"]
-                   :extra-deps {polyfy/polylith
-                                {:git/url   "https://github.com/polyfy/polylith"
-                                 :sha       "57e0217762c166a92b007736c198d100642e22c1"
-                                 :deps/root "projects/poly"}}}}}
+  :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
+         :extra-deps {polyfy/polylith
+                      {:git/url   "https://github.com/polyfy/polylith"
+                       :sha       "57e0217762c166a92b007736c198d100642e22c1"
+                       :deps/root "projects/poly"}}}}}
