@@ -1,9 +1,8 @@
 (ns makejack.project-coords.impl
   (:require
-   [aero.core :as aero]
    [clojure.edn :as edn]
-   [makejack.util.filesystem :as fs]
-   [makejack.util.path :as path]))
+   [makejack.filesystem.api :as fs]
+   [makejack.path.api :as path]))
 
 (defn- maybe-path
   "Return a path from source if source can be understood as a path."
@@ -80,4 +79,5 @@
   )
 
 
-(defn bump-version [options])
+(defn bump-version [option
+                    s])

@@ -1,4 +1,4 @@
-(ns makejack.util.path
+(ns makejack.path.api
   "Path manipulation functions"
   (:import
    [java.io File]

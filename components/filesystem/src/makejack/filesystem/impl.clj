@@ -1,4 +1,4 @@
-(ns makejack.util.filesystem.impl
+(ns makejack.filesystem.impl
   "File system implementation details."
   (:import
    [java.nio.file

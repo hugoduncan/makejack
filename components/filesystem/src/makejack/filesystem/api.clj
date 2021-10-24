@@ -1,26 +1,25 @@
-(ns makejack.util.filesystem
+(ns makejack.filesystem.api
   "File system manipulation functions."
   (:require
    [clojure.java.io :as io]
-   [makejack.util.filesystem.impl :as impl]
-   [makejack.util.path :as path])
+   [makejack.filesystem.impl :as impl]
+   [makejack.path.api :as path])
   (:import
    [java.io File]
    [java.nio.file
     CopyOption
     FileVisitOption
     Files
-    LinkOption
     Path
     StandardCopyOption]
-   [java.nio.file.attribute FileAttribute PosixFilePermission]))
+   [java.nio.file.attribute
+    FileAttribute]))
 
 (defn real-path
   "Resolve the path to a path that is represented on the filesystem.
   Return a path."
   ^Path [path-like]
   (.toRealPath (path/path path-like) impl/dont-follow-links))
-
 
 (defn chmod
   "Change file mode, given octal mode specification as string."

@@ -1,10 +1,10 @@
-(ns makejack.util.filesystem-test
+(ns makejack.util.filesystem.api-test
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.test :as test :refer [deftest is testing]]
-   [makejack.util.filesystem :as fs]
-   [makejack.util.path :as path])
+   [makejack.util.filesystem.api :as fs]
+   [makejack.path.api :as path])
   (:import
    [java.nio.file
     CopyOption

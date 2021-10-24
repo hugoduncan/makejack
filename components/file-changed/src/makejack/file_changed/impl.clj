@@ -1,8 +1,8 @@
-(ns makejack.util.file-changed.impl
+(ns makejack.file-changed.impl
   (:require
    [clojure.java.io :as io]
-   [makejack.util.filesystem :as fs]
-   [makejack.util.path :as path])
+   [makejack.filesystem.api :as fs]
+   [makejack.path.api :as path])
   (:import
    [java.nio.charset
     StandardCharsets]

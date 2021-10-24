@@ -1,7 +1,7 @@
-(ns makejack.util.path.interface-test
+(ns makejack.util.path.path-test
   (:require
    [clojure.test :as test :refer [deftest is]]
-   [makejack.util.path :as path])
+   [makejack.path.api :as path])
   (:import
    [java.io
     File]))

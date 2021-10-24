@@ -1,12 +1,12 @@
-(ns makejack.util.file-changed.api
+(ns makejack.file-changed.api
   "Track file changes by hash.
   Hashes are checked if the file modification time changes."
   (:require
    [clojure.edn :as edn]
    [clojure.set :as set]
-   [makejack.util.file-changed.impl :as impl]
-   [makejack.util.filesystem :as fs]
-   [makejack.util.path :as path]))
+   [makejack.file-changed.impl :as impl]
+   [makejack.filesystem.api :as fs]
+   [makejack.path.api :as path]))
 
 (defn load-file-info
   "Load a file info map from a path."

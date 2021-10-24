@@ -1,7 +1,7 @@
 (ns makejack.poly.api
   "Build task helpers for polylith (like) projects"
   (:require
-   [makejack.util.filesystem :as fs]))
+   [makejack.filesystem.api :as fs]))
 
 
 (defn classpath-directory-roots
