@@ -19,7 +19,6 @@
   [{:keys [file-path]} file-info]
   (spit (path/as-file file-path) (pr-str file-info)))
 
-
 (defn changed-files
   "Return a file-info map a list of changed and removed paths.
 
