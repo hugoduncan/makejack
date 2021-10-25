@@ -1,4 +1,4 @@
 {:paths   ["src"]
- :deps    {org.clojure/tools.deps.alpha {:mvn/version "0.12.985"}}
+ :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

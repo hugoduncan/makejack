@@ -48,11 +48,12 @@
                    (defaults/jar-filename params))
         basis     (or (:basis params) (defaults/basis params))
         src-dirs  (defaults/paths basis)
-        class-dir (str (defaults/classes-path params))]
-    (b/write-pom {:basis     basis
+        class-dir (str (defaults/classes-path params))
+        relative? (complement path/absolute?)]
+    (b/write-pom {:basis     (update basis :paths
+                                     #(filterv relative? %))
                   :class-dir class-dir
                   :lib       (:lib params)
-                  :src-dirs  src-dirs
                   :version   (:version params)})
     (b/copy-dir {:src-dirs   src-dirs
                  :target-dir class-dir

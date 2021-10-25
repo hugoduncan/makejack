@@ -35,7 +35,7 @@
   [{:keys [lib version]}]
   (assert (or (and lib version) (and (not lib) (not version)))
           "Both :lib and :version must be specified, or both unspecified.")
-  (when lib
+  (if lib
     {:lib lib :version version}
     (load-project-coords)))
 
@@ -43,15 +43,13 @@
   "Return the project basis
   :mvn/local dependencies are converted to use source paths."
   [params]
-  (-> (b/create-basis (:project params :standard))
+  (-> (b/create-basis (select-keys params [:project]))
       poly/lift-local-deps))
 
 (defn paths
   "Return the basis :paths"
   [basis]
-  (->> basis
-       :classpath-roots
-       (filter fs/directory?)))
+  (:paths basis))
 
 (defn jar-filename
   "Return the jar filename."
