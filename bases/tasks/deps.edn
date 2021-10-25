@@ -1,4 +1,13 @@
 {:paths   ["src"]
- :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}}
+ :deps
+ {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
+  makejack/defaults             {:local/root "../../components/defaults"}
+  makejack/file-changed         {:local/root "../../components/file-changed"}
+  makejack/filesystem           {:local/root "../../components/filesystem"}
+  makejack/paths                {:local/root "../../components/path"}
+  makejack/poly                 {:local/root "../../components/poly"}
+  makejack/project-coords       {:local/root "../../components/project-coords"}
+  makejack/target-doc           {:local/root "../../components/target-doc"}
+  makejack/verbose              {:local/root "../../components/verbose"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

@@ -2,7 +2,6 @@
   (:require
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
-   [makejack.filesystem.api :as fs]
    [makejack.path.api :as path]
    [makejack.poly.api :as poly]
    [makejack.project-coords.api :as project-coords]))

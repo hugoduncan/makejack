@@ -1,4 +1,4 @@
-{:paths ["src" "resources"]
- :deps {}
+{:paths   ["src"]
+ :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps {}}}}
+                  :extra-deps  {}}}}
