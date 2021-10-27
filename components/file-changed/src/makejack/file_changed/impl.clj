@@ -27,7 +27,7 @@
           (recur j1 (unchecked-inc k1) ))))
     (String. hex-chars StandardCharsets/UTF_8)))
 
-(defn hash [path-like]
+(defn md5-hash [path-like]
   (let [md    (MessageDigest/getInstance "MD5")
         n     (* 128 1024)
         bytes (byte-array n)]
@@ -48,7 +48,7 @@
         {:keys [hash modified]} (get file-info k)
         now-modified            (fs/last-modified path-like)]
     (when-not (= modified now-modified)
-      (let [new-hash (hash path-like)]
+      (let [new-hash (md5-hash path-like)]
         (when-not (= hash new-hash)
           [k {:hash     new-hash
               :modified now-modified}])))))

@@ -23,19 +23,19 @@
 
 (deftest project-data-test
   (testing "project-data returns explicitly configured data"
-    (is (= {:lib 'abc/def :version "0.0.1"}
-           (defaults/project-data {:lib 'abc/def :version "0.0.1"}))))
+    (let [project-data {:name 'abc/def :version "0.0.1"}]
+      (is (= project-data
+             (defaults/project-data project-data)))))
   (testing "project-data with no configured data throws"
     (is (thrown? java.io.FileNotFoundException
                  (defaults/project-data {}))))
   (testing "project-data with a project.edn, reads the project.edn"
     (fs/with-temp-dir [dir "project-data-test"]
-      (let [proj-map {:name    'me/abcd
-                      :version "0.0.0"}]
+      (let [project-data {:name 'me/abcd :version "0.0.0"}]
         (spit
          (path/as-file (path/path dir "project.edn"))
-         (pr-str proj-map))
-        (is (= (update proj-map :version str "." (b/git-count-revs nil))
+         (pr-str project-data))
+        (is (= (assoc project-data :dir dir)
                (defaults/project-data {:dir dir})))))))
 
 (deftest paths-test

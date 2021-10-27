@@ -1,9 +1,10 @@
-(ns makejack.util.filesystem.api-test
+(ns makejack.filesystem.api-test
   (:require
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.test :as test :refer [deftest is testing]]
-   [makejack.util.filesystem.api :as fs]
+   [makejack.filesystem.api :as fs]
+   [makejack.filesystem.impl :as impl]
    [makejack.path.api :as path])
   (:import
    [java.nio.file
@@ -34,7 +35,7 @@
       (is (str/starts-with? (str (path/filename path)) "pref"))
       (fs/delete-file! path)))
   (testing "with directory option creates a path in the given directory"
-    (let [dir  (Files/createTempDirectory "xyz" fs/empty-file-attributes)
+    (let [dir  (Files/createTempDirectory "xyz" impl/empty-file-attributes)
           path (fs/make-temp-path {:prefix "pref" :dir dir})]
       (is (fs/file-exists? path))
       (is (= dir (path/parent path)))
@@ -51,7 +52,7 @@
     (is (not (fs/file-exists? @paths)))
 
     (fs/with-temp-path [path {}
-                                path2 "pref"]
+                        path2 "pref"]
       (is (fs/file-exists? path))
       (is (fs/file-exists? path2))
       (vreset! paths [path path2])
@@ -59,22 +60,22 @@
     (is (not (fs/file-exists? (first @paths))))
     (is (not (fs/file-exists? (second @paths))))))
 
-(deftest list-paths-test
-  (let [source (.getPath (io/resource "project"))]
-    (is (=
-         ["" "sub" "sub/mj.edn" "sub/project.edn" "mj.edn" "project.edn"]
-         (->> (fs/list-paths source)
-              (mapv (path/relative-to source))
-              (mapv str))))))
+#_(deftest list-paths-test
+    (let [source (.getPath (io/resource "project"))]
+      (is (=
+           ["" "sub" "sub/mj.edn" "sub/project.edn" "mj.edn" "project.edn"]
+           (->> (fs/list-paths source)
+                (mapv (path/relative-to source))
+                (mapv str))))))
 
-(deftest copy-files-test
-  (let [file-attributes (into-array FileAttribute [])
-        dir             (Files/createTempDirectory
-                         "delete-recursive-test" file-attributes)
-        source          (.getPath (io/resource "project"))]
-    (fs/copy-files! source dir)
-    (is (= (mapv (path/relative-to source) (fs/list-paths source))
-           (mapv (path/relative-to dir) (fs/list-paths dir))))))
+#_(deftest copy-files-test
+    (let [file-attributes (into-array FileAttribute [])
+          dir             (Files/createTempDirectory
+                           "delete-recursive-test" file-attributes)
+          source          (.getPath (io/resource "project"))]
+      (fs/copy-files! source dir)
+      (is (= (mapv (path/relative-to source) (fs/list-paths source))
+             (mapv (path/relative-to dir) (fs/list-paths dir))))))
 
 (deftest delete-recursive-test
   (let [file-attributes (into-array FileAttribute [])

@@ -1,6 +1,9 @@
 {:paths   ["src"]
- :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
-           rewrite-clj/rewrite-clj       {:mvn/version "1.0.699-alpha"}}
+ :deps
+ {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
+  rewrite-clj/rewrite-clj       {:mvn/version "1.0.699-alpha"}
+  makejack/filesystem           {:local/root "../filesystem"}
+  makejack/paths                {:local/root "../path"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
                   :exec-fn     kaocha.runner/exec-fn

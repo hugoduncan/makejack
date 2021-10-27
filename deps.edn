@@ -17,7 +17,10 @@
     org.clojure/tools.deps.alpha {:mvn/version "0.12.1003"}
     rewrite-clj/rewrite-clj      {:mvn/version "1.0.699-alpha"}}
    :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
-  :test {:extra-paths []
+  :test {:extra-paths ["test"]
+         :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
+         :exec-fn     kaocha.runner/exec-fn
+         :exec-args   {}
          :jvm-opts    ["-Dclojure.main.report=stderr"]}
 
   :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
