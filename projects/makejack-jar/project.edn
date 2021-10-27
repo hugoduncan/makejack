@@ -1,3 +1,2 @@
-{:version  0.1
- :name     "makejack"
- :group-id "org.hugoduncan"}
+{:name    org.hugoduncan/makejack
+ :version "0.1.:git-rev-count"}

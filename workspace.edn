@@ -7,5 +7,4 @@
  :tag-patterns {:stable "stable-*"
                 :release "v[0-9]*"}
  :projects {"development" {:alias "dev"}
-            "build" {:alias "build"}
             "makejack-jar" {:alias "jar"}}}

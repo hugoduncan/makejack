@@ -1,4 +1,4 @@
 {:paths   ["src"]
- :deps    {}
+ :deps    {rewrite-clj/rewrite-clj {:mvn/version "1.0.699-alpha"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

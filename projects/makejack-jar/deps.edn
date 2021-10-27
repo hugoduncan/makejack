@@ -19,4 +19,5 @@
     makejack/tasks {:local/root "../../bases/tasks"}}
    :paths      []
    :ns-default makejack.build.targets
+   :jvm-opts   ["-Dclojure.main.report=stderr"]
    }}}

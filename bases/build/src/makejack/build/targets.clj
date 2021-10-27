@@ -1,14 +1,9 @@
 (ns makejack.build.targets
+  "Build targets to build makejack itself.
+
+  Uses a selection of makejack tasks."
   (:require
-   [clojure.string :as str]
-   [clojure.tools.build.api :as b]
-   [makejack.poly.api :as poly]
-   [makejack.project-coords.api :as project-coords]
-   [makejack.target-doc.api :as target-doc]
    [makejack.tasks.core :as tasks]))
-
-;; (def class-dir "target/classes")
-
 
 (defn ^{:doc-order 0 :params "[:target target-name]"} help
   "Show help
@@ -22,6 +17,11 @@
   "Remove all built files"
   [params]
   (tasks/clean params))
+
+(defn bump-version
+  "Bump the project version at a given level."
+  [params]
+  (tasks/bump-version params))
 
 (defn jar
   "Build a jar file"

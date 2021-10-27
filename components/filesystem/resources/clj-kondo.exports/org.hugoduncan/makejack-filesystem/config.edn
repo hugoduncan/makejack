@@ -1,0 +1,3 @@
+{:hooks
+ {:analyze-call
+  {makejack.filesystem.api/with-temp-dir hooks.fs/with-binding}}}

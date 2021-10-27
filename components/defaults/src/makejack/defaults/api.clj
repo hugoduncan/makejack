@@ -3,7 +3,6 @@
   (:require
    [makejack.defaults.impl :as impl]))
 
-
 (defn target-path
   "Return the target directory."
   {:arglists '[[{:keys [target]}]]}
@@ -18,7 +17,7 @@
 
 (defn project-coords
   "Return the project coordinates"
-  {:arglists '[[{:keys [lib version]}]]}
+  {:arglists '[[{:keys [name version]}]]}
   [params]
   (impl/project-coords params))
 
@@ -35,9 +34,9 @@
 
 (defn jar-filename
   "Return the jar filename."
-  {:arglists '[[{:keys [lib version]}]]}
+  {:arglists '[[{:keys [name version]}]]}
   [params]
-  {:pre [(:lib params)(:version params)]}
+  {:pre [(:name params)(:version params)]}
   (impl/jar-filename params))
 
 (defn jar-ignores

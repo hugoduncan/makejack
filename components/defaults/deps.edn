@@ -1,4 +1,11 @@
 {:paths   ["src"]
- :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}}
- :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {}}}}
+ :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
+           makejack/filesystem           {:local/root "../filesystem"}
+           makejack/path                 {:local/root "../path"}
+           makejack/project-coords       {:local/root "../project-coords"}
+           makejack/poly                 {:local/root "../poly"}}
+ :aliases {:test
+           {:extra-paths ["test"]
+            :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
+            :exec-fn     kaocha.runner/exec-fn
+            :exec-args   {}}}}
