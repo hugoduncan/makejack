@@ -1,7 +1,7 @@
-(ns makejack.project-coords.impl-test
+(ns makejack.project-data.impl-test
   (:require
    [clojure.test :refer [deftest is testing]]
-   [makejack.project-coords.impl :as impl]))
+   [makejack.project-data.impl :as impl]))
 
 (deftest version-map-test
   (testing "version map round trips"

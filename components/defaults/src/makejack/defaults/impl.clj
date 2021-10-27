@@ -3,7 +3,7 @@
    [clojure.tools.build.api :as b]
    [makejack.path.api :as path]
    [makejack.poly.api :as poly]
-   [makejack.project-coords.api :as project-coords]))
+   [makejack.project-data.api :as project-data]))
 
 (defn target-path
   "Return the target directory."
@@ -16,14 +16,14 @@
   (str (path/path (target-path params) (:classes-dir params "classes"))))
 
 
-(defn project-coords
+(defn project-data
   "Return the params with project coordinates"
   [{:keys [name version] :as params}]
   (assert (or (and name version) (and (not name) (not version)))
           "Both :name and :version must be specified, or both unspecified.")
   (if name
     params
-    (merge params (project-coords/read params))))
+    (merge params (project-data/read params))))
 
 (defn basis
   "Return the project basis

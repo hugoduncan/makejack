@@ -1,4 +1,4 @@
-(ns makejack.project-coords.impl
+(ns makejack.project-data.impl
   (:require
    [clojure.edn :as edn]
    [clojure.string :as str]

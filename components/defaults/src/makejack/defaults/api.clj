@@ -15,11 +15,11 @@
   [params]
   (impl/classes-path params))
 
-(defn project-coords
+(defn project-data
   "Return the project coordinates"
   {:arglists '[[{:keys [name version]}]]}
   [params]
-  (impl/project-coords params))
+  (impl/project-data params))
 
 (defn basis
   "Return the project basis

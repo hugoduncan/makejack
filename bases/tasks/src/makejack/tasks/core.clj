@@ -17,7 +17,7 @@
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
    [makejack.path.api :as path]
-   [makejack.project-coords.api :as project-coords]
+   [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
    [makejack.verbose.api :as v]))
 
@@ -45,17 +45,17 @@
   [params]
   {:arglists '[[{:keys [level] :as params}]]}
   (v/println params "Bump version...")
-  (let [coords     (defaults/project-coords params)
-        new-coords (project-coords/bump-version coords (:level params))]
-    (project-coords/write new-coords)
+  (let [data     (defaults/project-data params)
+        new-data (project-data/bump-version data (:level params))]
+    (project-data/write new-data)
     params))
 
 (defn jar
   "Build a jar file"
   [params]
   (v/println params "Build jar...")
-  (let [params    (defaults/project-coords params)
-        params    (project-coords/expand-version params)
+  (let [params    (defaults/project-data params)
+        params    (project-data/expand-version params)
         jar-path  (path/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))
@@ -79,7 +79,7 @@
   "install jar to local maven repository."
   [params]
   (v/println params "Install jar...")
-  (let [params    (merge params (defaults/project-coords params))
+  (let [params    (merge params (defaults/project-data params))
         jar-path  (path/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))

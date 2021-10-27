@@ -10,7 +10,7 @@
     makejack/filesystem          {:local/root "components/filesystem"}
     makejack/paths               {:local/root "components/path"}
     makejack/poly                {:local/root "components/poly"}
-    makejack/project-coords      {:local/root "components/project-coords"}
+    makejack/project-data        {:local/root "components/project-data"}
     makejack/target-doc          {:local/root "components/target-doc"}
     makejack/verbose             {:local/root "components/verbose"}
     org.clojure/clojure          {:mvn/version "1.10.3"}

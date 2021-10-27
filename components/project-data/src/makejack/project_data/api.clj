@@ -1,4 +1,4 @@
-(ns makejack.project-coords.api
+(ns makejack.project-data.api
   "Manage the project data map, possibly in a project.edn file.
 
   The :name is a qualified symbol, like my.org/project-name.
@@ -8,7 +8,7 @@
   are supported."
   (:refer-clojure :exclude [read])
   (:require
-   [makejack.project-coords.impl :as impl]))
+   [makejack.project-data.impl :as impl]))
 
 (defn bump-version
   "Bump the project version.
