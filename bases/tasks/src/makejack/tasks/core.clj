@@ -55,8 +55,7 @@
   [params]
   (v/println params "Build jar...")
   (let [params    (defaults/project-coords params)
-        params    (project-coords/expand params)
-        _         (prn (select-keys params [:version :version-map] ))
+        params    (project-coords/expand-version params)
         jar-path  (path/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))

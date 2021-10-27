@@ -66,7 +66,6 @@
    params
    (let [arglist (first arglists)]
      (when-let [arg (first arglist)]
-       (prn :arg arg)
        (if-let [kws (and (map? arg) (:keys arg))]
          ;; destructured keys
          (str/join (map #(format "[:%s arg]" %) kws))

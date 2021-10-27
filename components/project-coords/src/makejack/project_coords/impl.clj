@@ -9,11 +9,20 @@
 
 ;;; version <-> version-map
 
+(defn- maybe-read [s]
+  (try
+    (edn/read-string s)
+    (catch Exception _
+      s)))
+
 (defn version->version-map
   [version]
   {:pre [(string? version)]}
-  (let [[non-q q]  (str/split version #"-")
-        components (mapv edn/read-string (str/split non-q #"[.]"))]
+  (let [components (mapv maybe-read (str/split version #"[.]"))
+        [non-q q]  (when (symbol? (last components))
+                     (str/split (name (last components)) #"-"))
+        components (cond-> components
+                     q (conj (butlast components) (maybe-read non-q)))]
     (cond-> (zipmap [:major :minor :incremental] components)
       q (assoc :qualifier q))))
 
@@ -26,7 +35,7 @@
     (cond-> (str/join "." components)
       q (str "-" q))))
 
-;;; Expansion
+;;; Version Expansion
 
 (defmulti expand-component
   (fn [component] component))
@@ -50,24 +59,24 @@
    {}
    version-map))
 
-(defn expand [params]
-  (let [version-map (expand-version-map (:version-map params))
-        version     (version-map->version version-map)]
-    (assoc params
-           :version version
-           :version-map version-map)))
+(defn expand-version [params]
+  (let [version (-> (:version params)
+                    version->version-map
+                    expand-version-map
+                    version-map->version)]
+    (assoc params :version version)))
 
 
-(defn normalise
-  [{:keys [version version-map] :as params}]
-  (assert (or version version-map))
-  (cond-> params
-    (and version (not version-map))
-    (assoc :version-map (version->version-map version))
-    (and (not version) version-map)
-    (assoc :version (version-map->version version-map))))
+;; (defn normalise
+;;   [{:keys [version version-map] :as params}]
+;;   (assert (or version version-map))
+;;   (cond-> params
+;;     (and version (not version-map))
+;;     (assoc :version-map (version->version-map version))
+;;     (and (not version) version-map)
+;;     (assoc :version (version-map->version version-map))))
 
-;;; file handling
+;;; File Handling
 
 (defn project-edn-path
   ^java.nio.file.Path [{:keys [dir]}]
@@ -76,31 +85,20 @@
 (def template-project-edn "{:name noname\n :version \"\"}")
 
 (defn- validate-data!
-  [{:keys [version version-map name]} f]
-  (when (and version version-map)
-    (throw
-     (ex-info
-      "project.edn must contain only one of :version and :version-map"
-      {:path (str f)})))
-  (when-not (or version version-map)
-    (throw
-     (ex-info
-      "project.edn must contain either :version or :version-map"
-      {:path (str f)})))
+  [{:keys [version name] :as data} f]
+  (when-not version
+    (throw (ex-info "project.edn must contain :version" {:path (str f)})))
   (when-not name
-    (throw (ex-info "project.edn must contain :name" {:path (str f)}))))
+    (throw (ex-info "project.edn must contain :name" {:path (str f)})))
+  data)
 
-(defn load-project [params]
-  (let [f (-> params project-edn-path path/as-file)
-        {:keys [version version-map] :as data}
-        (-> f slurp edn/read-string)]
-    (validate-data! data f)
-    (cond-> data
-      (not version)
-      (assoc :version (version-map->version version-map))
-
-      (not version-map)
-      (assoc :version-map (version->version-map version)))))
+(defn load-project
+  [params]
+  (let [f (-> params project-edn-path path/as-file)]
+    (-> f
+        slurp
+        edn/read-string
+        (validate-data! f))))
 
 (defn update-version
   [{:keys [name version]} src]
@@ -110,50 +108,17 @@
        (z/replace name))
       (z/subedit->
        (z/get :version)
-       (z/replace version))))
+       (z/replace version))
+      z/root-string))
 
-(defn update-version-map
-  [{:keys                                       [name]
-    {:keys [major minor incremental qualifier]} :version-map} src]
-  (-> (z/of-string src)
-      (z/subedit->
-       (z/get :name)
-       (z/replace name))
-      (z/subedit->
-       (z/get :version-map)
-       (z/subedit->
-        (z/get :major)
-        (z/replace (str major)))
-       (cond->
-           minor (z/subedit->
-                  (some->
-                   (z/get :minor)
-                   (z/replace (str minor)))))
-       (cond->
-           incremental (z/subedit->
-                        (some->
-                         (z/get :incremental)
-                         (z/replace (str incremental)))))
-       (cond->
-           qualifier (z/subedit->
-                      (some->
-                       (z/get :qualifier)
-                       (z/replace (str qualifier))))))))
-
-(defn write-project [{:keys [name] :as params}]
-  (let [{:keys [version version-map] :as params}
-        (normalise params)
-
-        _       (prn :params params)
-        f       (-> params project-edn-path path/as-file)
-        src     (if (fs/file? f)
-                  (slurp f)
-                  template-project-edn)
-        current (edn/read-string src)
-        zloc    (if (:version current)
-                  (update-version params src)
-                  (update-version-map params src))
-        new-s   (z/root-string zloc)]
+(defn write-project
+  [{:keys [name version] :as params}]
+  {:pre [name version]}
+  (let [f     (-> params project-edn-path path/as-file)
+        src   (if (fs/file? f)
+                (slurp f)
+                template-project-edn)
+        new-s (update-version params src)]
     (if new-s
       (spit f new-s)
       (throw (ex-info
