@@ -75,11 +75,37 @@
             :jar-file  (str jar-path)})
     params))
 
+(defn uber
+  "Build an uberjar file"
+  [params]
+  (v/println params "Build jar...")
+  (let [params    (defaults/project-data params)
+        params    (project-data/expand-version params)
+        jar-path  (path/path
+                   (defaults/target-path params)
+                   (defaults/jar-filename params))
+        basis     (or (:basis params) (defaults/basis params))
+        src-dirs  (defaults/paths basis)
+        class-dir (str (defaults/classes-path params))
+        relative? (complement path/absolute?)]
+    (b/write-pom {:basis     (update basis :paths
+                                     #(filterv relative? %))
+                  :class-dir class-dir
+                  :lib       (:name params)
+                  :version   (:version params)})
+    (b/copy-dir {:src-dirs   src-dirs
+                 :target-dir class-dir
+                 :ignores    (defaults/jar-ignores)})
+    (b/uber {:class-dir class-dir
+             :uber-file (str jar-path)})
+    params))
+
 (defn install
   "install jar to local maven repository."
   [params]
   (v/println params "Install jar...")
-  (let [params    (merge params (defaults/project-data params))
+  (let [params    (defaults/project-data params)
+        params    (project-data/expand-version params)
         jar-path  (path/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))
@@ -89,6 +115,6 @@
      {:basis     basis
       :class-dir class-dir
       :jar-file  (str jar-path)
-      :lib       (:lib params)
+      :lib       (:name params)
       :version   (:version params)})
     params))

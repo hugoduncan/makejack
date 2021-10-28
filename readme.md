@@ -2,19 +2,18 @@
 
 Build tooling.
 
+```clojure
+org.hugoduncan/makejack {:mvn/vesion "tbd"}
+```
 
-## Project data
 
-Makejack builds on top of the philosophy of build as code, but
-recognises that there is project data that doesn't influence how the
-project built, just artifact names, and metadata.
 
-`makejack.project-data` allows you to manage this data, and possibly
-store it in a `project.edn` file.
 
-It provides several ways of constructing your project version, either as
-a literal, or as a template containing `:git-rev-count` or
-`:reverse-date` components.
+
+## path and filesystem
+
+Helpers for manipulating paths and the filesystem.
+
 
 ## Development
 

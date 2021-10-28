@@ -10,6 +10,9 @@
   makejack/target-doc   {:local/root "../../components/target-doc"}
   makejack/verbose      {:local/root "../../components/verbose"}}
 
+
+ :tools/usage {:ns-default makejack.tasks.core}
+
  :aliases
  {:test {:extra-paths []
          :extra-deps  {}}

@@ -1,4 +1,4 @@
-(ns makejack.util.path.path-test
+(ns makejack.path.api-test
   (:require
    [clojure.test :as test :refer [deftest is]]
    [makejack.path.api :as path])

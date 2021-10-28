@@ -28,6 +28,11 @@
   [params]
   (tasks/jar params))
 
+(defn uber
+  "Build a uberjar file"
+  [params]
+  (tasks/uber params))
+
 (defn install
   "install jar to local maven repository."
   [params]
