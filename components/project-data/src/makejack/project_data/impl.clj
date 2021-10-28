@@ -66,16 +66,6 @@
                     version-map->version)]
     (assoc params :version version)))
 
-
-;; (defn normalise
-;;   [{:keys [version version-map] :as params}]
-;;   (assert (or version version-map))
-;;   (cond-> params
-;;     (and version (not version-map))
-;;     (assoc :version-map (version->version-map version))
-;;     (and (not version) version-map)
-;;     (assoc :version (version-map->version version-map))))
-
 ;;; File Handling
 
 (defn project-edn-path
@@ -125,7 +115,7 @@
               "Failed to write project.edn"
               {:path (str f)})))))
 
-;;; bump
+;;; Bump Version
 
 (defn bump-version [params bump-type]
   {:pre (#{:major :minor :incremental} bump-type)}
