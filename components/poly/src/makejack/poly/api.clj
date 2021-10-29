@@ -1,5 +1,5 @@
 (ns makejack.poly.api
-  "Build helpers for polylith (like) monorepo projects"
+  "Build helpers for polylith (like) monorepo projects."
   (:require
    [makejack.poly.impl :as impl]))
 
