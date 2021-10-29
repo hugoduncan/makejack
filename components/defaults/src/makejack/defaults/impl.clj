@@ -46,3 +46,7 @@
 (def jar-ignores
   "Adds .keep files to the default jar-ignores"
   [".*~$" "^#.*#$" "^\\.#.*" "^.DS_Store$" "^.keep$"])
+
+(defn git-tag-for-version
+  [params]
+  (str "v" (:version params)))

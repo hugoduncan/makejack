@@ -4,6 +4,7 @@
   makejack/defaults     {:local/root "../../components/defaults"}
   makejack/file-changed {:local/root "../../components/file-changed"}
   makejack/filesystem   {:local/root "../../components/filesystem"}
+  makejack/git          {:local/root "../../components/git"}
   makejack/paths        {:local/root "../../components/path"}
   makejack/poly         {:local/root "../../components/poly"}
   makejack/project-data {:local/root "../../components/project-data"}
