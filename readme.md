@@ -14,7 +14,7 @@ You can install makejack as a named tool:
 
 ``` shell
 clj -Ttools install io.github.hugoduncan/makejack \
-'{:git/sha "7ffcbca" :deps/root "projects/makejack-jar"}' \
+'{:git/tag "v0.1.5" :git/sha "49f0357" :deps/root "projects/makejack-jar"}' \
  :as mj
 ```
 
@@ -44,7 +44,8 @@ You can add makejack to your `deps.edn`, wherever you configure your
 build tools.
 
 ```clojure
-org.hugoduncan/makejack {:mvn/vesion "tbd"}
+org.hugoduncan/makejack
+{:git/tag "v0.1.5" :git/sha "49f0357" :deps/root "projects/makejack-jar"}
 ```
 
 ## `makejack.target-doc`
