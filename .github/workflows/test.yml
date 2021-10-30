@@ -1,0 +1,47 @@
+# A workflow run is made up of one or more jobs that can run
+# sequentially or in parallel
+on: [push, pull_request]
+name: Run tests
+
+jobs:
+  tests:
+    name: Tests
+
+    strategy:
+      matrix:
+        # TODO add windows-latest
+        os: [ubuntu-latest, macOS-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Prepare java
+      uses: actions/setup-java@v2
+      with:
+        distribution: 'zulu'
+        java-version: '8'
+
+    - name: Install clojure tools
+      uses: DeLaGuardo/setup-clojure@3.5
+      with:
+        cli: 1.10.3.998
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: poly check
+      run: |
+        clojure -M:poly check
+
+    - name: poly test :all
+      run: |
+        clojure -M:poly test :all
+
+    - name: build and insrall jar
+      run: |
+        cd projects/makejack-jar
+        clojure -T:build help | grep clean
+        clojure -T:build help :target clean | grep clean
+        clojure -T:build clean
+        clojure -T:build jar
+        clojure -T:build install
