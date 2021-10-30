@@ -29,10 +29,19 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Poly check
+    - name: poly check
       run: |
         clojure -M:poly check
 
-    - name: tests
+    - name: poly test :all
       run: |
         clojure -M:poly test :all
+
+    - name: build and insrall jar
+      run: |
+        cd projects/makejack-jar
+        clojure -T:build help
+        clojure -T:build help :target clean
+        clojure -T:build clean
+        clojure -T:build jar
+        clojure -T:build install
