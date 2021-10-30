@@ -37,3 +37,8 @@
   "install jar to local maven repository."
   [params]
   (tasks/install params))
+
+(defn tag-version
+  "Add a git tag with the latest version tag."
+  [params]
+  (tasks/tag-version params))

@@ -10,12 +10,11 @@
   :verbose true
 
   The :lib and :version keys are populated from `project.edn` if
-  present, else must be manually supplied.
-
-  "
+  present, else must be manually supplied."
   (:require
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
+   [makejack.git.api :as git]
    [makejack.path.api :as path]
    [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
@@ -78,7 +77,7 @@
 (defn uber
   "Build an uberjar file"
   [params]
-  (v/println params "Build jar...")
+  (v/println params "Build uberjar...")
   (let [params    (defaults/project-data params)
         params    (project-data/expand-version params)
         jar-path  (path/path
@@ -117,4 +116,17 @@
       :jar-file  (str jar-path)
       :lib       (:name params)
       :version   (:version params)})
+    params))
+
+(defn tag-version
+  "Tag the HEAD sha with the project version."
+  [params]
+  (v/println params "Tag version...")
+  (let [params (defaults/project-data params)
+        params (project-data/expand-version params)
+        tag    (defaults/git-tag-for-version params)]
+    (git/tag
+     (merge
+      (select-keys params [:dir])
+      {:tag tag}))
     params))

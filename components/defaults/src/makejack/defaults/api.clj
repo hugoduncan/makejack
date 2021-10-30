@@ -43,3 +43,8 @@
   "Adds .keep files to the default jar-ignores"
   []
   impl/jar-ignores)
+
+(defn git-tag-for-version
+  "Return the git tag for the :version in params."
+  [params]
+  (impl/git-tag-for-version params))
