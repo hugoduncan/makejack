@@ -35,4 +35,4 @@ jobs:
 
     - name: tests
       run: |
-        clojure -M:poly test
+        clojure -M:poly test :all
