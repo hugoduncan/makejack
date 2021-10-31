@@ -1,4 +1,4 @@
 {:paths   ["src"]
- :deps    {}
+ :deps    {makejack/paths {:local/root "../file-hash"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

@@ -3,6 +3,7 @@
   makejack/tasks        {:local/root "../../bases/tasks"}
   makejack/defaults     {:local/root "../../components/defaults"}
   makejack/file-changed {:local/root "../../components/file-changed"}
+  makejack/file-hash    {:local/root "../../components/file-hash"}
   makejack/filesystem   {:local/root "../../components/filesystem"}
   makejack/git          {:local/root "../../components/git"}
   makejack/paths        {:local/root "../../components/path"}
