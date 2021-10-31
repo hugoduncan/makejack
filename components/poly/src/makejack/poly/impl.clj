@@ -1,6 +1,8 @@
 (ns makejack.poly.impl
   (:require
-   [clojure.pprint]))
+   [clojure.pprint]
+   [makejack.path.api :as path]
+   [polylith.clj.core.api.interface :as poly-api]))
 
 (defn lift-local-deps
   "Return a basis with :mvn/local deps converted to source dependencies.
@@ -38,3 +40,42 @@
         (update :deps merge transitive-deps)
         (update :deps #(into {} (remove (comp :local/root val)) %))
         (update :paths into local-paths))))
+
+(defn workspace [{:keys [base keys] :or {base :stable keys nil}}]
+  (poly-api/workspace base keys))
+
+(defn element-paths
+  [prefix elements]
+  (mapv (fn [p] (str (path/path (name prefix) (:name p)))) elements))
+
+(defn elements
+  [ws]
+  (fn [e]
+    (some->> (ws e)
+             (element-paths e))))
+
+(defn all-elements [ws]
+  (let [ws (or ws {})
+        f  (elements ws)]
+    (reduce
+     into
+     []
+     (mapv f [:components :bases :projects]))))
+
+(defn changed-element-paths
+  [prefix elements]
+  (mapv (fn [p] (str (path/path (name prefix)  p))) elements))
+
+(defn changed-element
+  [ws]
+  (fn [e]
+    (some->> (ws (keyword (str "changed-" (name e))))
+             (changed-element-paths e))))
+
+(defn changed-elements [ws]
+  (let [ws (or ws {})
+        f  (changed-element (:changes ws {}))]
+    (reduce
+     into
+     []
+     (mapv f [:components :bases :projects]))))

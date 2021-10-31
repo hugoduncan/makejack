@@ -8,3 +8,12 @@
   Adds transitive libs, and extends the paths."
   [basis]
   (impl/lift-local-deps basis))
+
+(defn workspace [params]
+  (impl/workspace params))
+
+(defn all-elements [ws]
+  (impl/all-elements ws))
+
+(defn changed-elements [ws]
+  (impl/changed-elements ws))
