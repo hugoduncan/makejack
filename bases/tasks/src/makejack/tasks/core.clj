@@ -12,10 +12,12 @@
   The :lib and :version keys are populated from `project.edn` if
   present, else must be manually supplied."
   (:require
+   [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
    [makejack.git.api :as git]
    [makejack.path.api :as path]
+   [makejack.poly.api :as poly]
    [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
    [makejack.verbose.api :as v]))
@@ -130,3 +132,64 @@
       (select-keys params [:dir])
       {:tag tag}))
     params))
+
+
+(defn clj-kondo
+  "lint with clj-kondo."
+  [{:keys [cache-dir config-dir dir] :or {dir "."} :as params}]
+  (v/println params "clj-kondo" dir "...")
+  (let [basis        (defaults/basis params)
+        paths        (if (:init params)
+                       (keys (:classpath basis))
+                       (:paths basis))
+        command-args (cond-> ["clj-kondo" "--lint" (str/join ":" paths)]
+                       (:init params)
+                       (into ["--dependencies" "--parallel" "--copy-configs"])
+                       config-dir
+                       (into ["--config-dir" config-dir])
+                       cache-dir
+                       (into ["--cache-dir" cache-dir]))]
+    (->
+     {:command-args command-args
+      :dir          (.getPath (b/resolve-path dir))
+      :out          :inherit}
+     b/process)
+    params))
+
+
+
+(defn poly-clj-kondo
+  [params]
+  (let [{:keys [ws-dir] :as ws} (poly/workspace params)
+        changes                 (poly/changed-elements ws)
+        config-dir              (str (path/path ws-dir ".clj-kondo"))]
+    (doseq [change changes]
+      (clj-kondo (merge params {:dir        change
+                                :config-dir config-dir
+                                :cache-dir  config-dir})))))
+
+
+;; (defn exec-alias
+;;   [{:keys [alias fn args all dir] :or {dir "."}}]
+;;   (let [ws (workspace)]
+;;     (doseq [component (:components workspace)]
+;;       (-> {:command-args ["clojure" "-T"]
+;;            :dir          (.getPath (b/resolve-path dir))
+;;            :out          :capture}
+;;           b/process
+;;           :out))))
+
+;; (defn exec-cmd
+;;   [{:keys [cmd args all dir] :or {dir "."}}]
+;;   (let [ws   (workspace)
+;;         args (mapv identity args)]
+;;     (doseq [component (:components ws)]
+;;       (prn
+;;        (-> {:command-args (into [cmd] args)
+;;             :dir          (str (path/path
+;;                                 (b/resolve-path dir)
+;;                                 "components"
+;;                                 (:name component)))
+;;             :out          :inherit}
+;;            b/process
+;;            )))))

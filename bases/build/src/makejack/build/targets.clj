@@ -42,3 +42,17 @@
   "Add a git tag with the latest version tag."
   [params]
   (tasks/tag-version params))
+
+(defn clj-kondo
+  "Run clj-kondo.
+  When the :init keyword is true, then intialise with all dependencies."
+  [params]
+  (tasks/clj-kondo params))
+
+
+(defn poly-clj-kondo
+  "Run clj-kondo over a polylith project.
+  Assumes a .clj-kondo config at the polylith root.
+  When the :init keyword is true, then intialise with all dependencies."
+  [params]
+  (tasks/poly-clj-kondo params))
