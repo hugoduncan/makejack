@@ -1,7 +1,6 @@
 (ns makejack.target-doc.api
   "Provide documentation on namespace public functions"
   (:require
-   [clojure.pprint :as pprint]
    [clojure.string :as str]))
 
 

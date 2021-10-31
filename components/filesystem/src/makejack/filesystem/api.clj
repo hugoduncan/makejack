@@ -128,7 +128,9 @@
 (defn copy-file!
   ([source-path target-path]
    (copy-file! source-path target-path {:copy-attributes true}))
-  ([source-path target-path {:keys [copy-attributes replace-existing] :as options}]
+  ([source-path
+    target-path
+    {:keys [copy-attributes replace-existing] :as options}]
    (Files/copy
     (path/path source-path)
     (path/path target-path)
@@ -206,7 +208,7 @@
   As a shortcut, a prefix string can be passed instead of the options mao."
   ^Path [options-or-prefix]
   (let [{:keys [delete-on-exit dir prefix suffix] :or {suffix ".tmp"}}
-        (if (map? options-or-prefix)
+        (when (map? options-or-prefix)
           options-or-prefix)
         prefix (or prefix
                    (and (string? options-or-prefix) options-or-prefix)
@@ -271,12 +273,14 @@
          :as   options} (if (map? prefix-or-options) prefix-or-options {})
         _               (assert (string? prefix))
         _               (assert (map? options))
-        dir             (if dir (.toPath (io/file dir)))
+        dir             (when dir (.toPath (io/file dir)))
         file-attributes (into-array FileAttribute [])
         file            (..
                          (if dir
-                           (Files/createTempDirectory dir prefix file-attributes)
-                           (Files/createTempDirectory prefix file-attributes))
+                           (Files/createTempDirectory
+                            dir prefix file-attributes)
+                           (Files/createTempDirectory
+                            prefix file-attributes))
                          (toFile))]
     (when delete-on-exit
       (-> (java.lang.Runtime/getRuntime)
