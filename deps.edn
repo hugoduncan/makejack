@@ -6,6 +6,7 @@
    :extra-deps
    {makejack/build               {:local/root "bases/build"}
     makejack/tasks               {:local/root "bases/tasks"}
+    makejack/dag                 {:local/root "components/dag"}
     makejack/defaults            {:local/root "components/defaults"}
     makejack/file-changed        {:local/root "components/file-changed"}
     makejack/file-hash           {:local/root "components/file-hash"}
