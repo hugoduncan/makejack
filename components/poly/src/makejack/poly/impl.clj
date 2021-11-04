@@ -21,8 +21,10 @@
                          {}
                          libs)
         local-paths     (reduce-kv
-                         (fn [ps _lib {:keys [paths] :as coords}]
-                           (if (:local/root coords)
+                         (fn [ps _lib {:keys [dependents paths] :as coords}]
+                           (if (and (:local/root coords)
+                                    (or (empty? dependents)
+                                        (some local-root dependents)))
                              (into ps paths)
                              ps))
                          []
@@ -34,6 +36,12 @@
                              deps))
                          {}
                          libs)]
+    ;; (prn :poly (get libs 'polylith/clj-api))
+    ;; (prn :poly-util (get libs 'poly/util))
+    ;; (prn :makejack-path (get libs 'makejack/path))
+    ;; (prn :libs (keys libs))
+    ;; (prn :transitive-deps transitive-deps)
+    ;; (prn :local-paths local-paths)
     (-> basis
         (update :libs #(into {} (remove (comp :local/root val)) %))
         (update :libs merge transitive-libs)

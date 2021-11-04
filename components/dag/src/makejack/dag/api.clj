@@ -27,3 +27,8 @@
   {:pre [(not= from to)]}
 
   (impl/add-edge graph from to))
+
+
+(defn topo-sort
+  [child-edges parent-edges ks]
+  (impl/topo-sort child-edges parent-edges ks))

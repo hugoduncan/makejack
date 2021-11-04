@@ -15,6 +15,7 @@
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
+   [makejack.files.api :as files]
    [makejack.git.api :as git]
    [makejack.path.api :as path]
    [makejack.poly.api :as poly]
@@ -157,16 +158,38 @@
     params))
 
 
-
+;; TODO change this to invoke at top level with just the changed tests?
 (defn poly-clj-kondo
+  "Run clj-kondo on a polylith project."
   [params]
   (let [{:keys [ws-dir] :as ws} (poly/workspace params)
         changes                 (poly/changed-elements ws)
         config-dir              (str (path/path ws-dir ".clj-kondo"))]
     (doseq [change changes]
-      (clj-kondo (merge params {:dir        change
-                                :config-dir config-dir
-                                :cache-dir  config-dir})))))
+      (clj-kondo (merge params {:dir change :config-dir config-dir})))))
+
+(defn ns-tree
+  "Return namespace tree info."
+  [params]
+  (let [basis    (defaults/basis params)
+        info-map (files/info-map (defaults/paths basis))]
+    (println "Unreferenced namespaces"
+             (files/top-level-nses info-map))
+    (clojure.pprint/pprint
+     (files/topo-namespaces info-map))))
+
+(defn compile-clj
+  "AOT complilation"
+  [params]
+  (v/println params "compile-clj...")
+  (let [basis (defaults/basis params)]
+    (b/compile-clj
+     {:class-dir  (defaults/classes-path params)
+      :basis      basis
+      :ns-compile (remove
+                   #(re-matches #"hooks.*" (str %))
+                   (files/topo-namespaces
+                    (files/info-map (defaults/paths basis)))) })))
 
 
 ;; (defn exec-alias

@@ -24,7 +24,10 @@
   (as-path [s] (Paths/get s empty-strings))
 
   File
-  (as-path [f] (.toPath f)))
+  (as-path [f] (.toPath f))
+
+  java.net.URL
+  (as-path [f] (.getPath f)))
 
 (defn as-file ^File [^Path path-like]
   (.toFile (as-path path-like)))

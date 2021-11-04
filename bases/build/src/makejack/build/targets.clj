@@ -3,6 +3,7 @@
 
   Uses a selection of makejack tasks."
   (:require
+   [clojure.string :as str]
    [makejack.tasks.core :as tasks]))
 
 (defn ^{:doc-order 0 :params "[:target target-name]"} help
@@ -49,10 +50,31 @@
   [params]
   (tasks/clj-kondo params))
 
-
 (defn poly-clj-kondo
   "Run clj-kondo over a polylith project.
   Assumes a .clj-kondo config at the polylith root.
   When the :init keyword is true, then intialise with all dependencies."
   [params]
   (tasks/poly-clj-kondo params))
+
+(defn ns-tree
+  "Return namespace tree info."
+  [params]
+  (tasks/ns-tree params))
+
+(defn aliases-spec-to-aliases
+  [spec]
+  (cond
+    (keyword? spec) [spec]
+    (string? spec)  (mapv keyword (str/split spec #"\."))
+    :else           spec))
+
+(defn normalise-aliases [params]
+  (cond-> params
+    (:aliases params)
+    (update :aliases aliases-spec-to-aliases)))
+
+(defn compile-clj
+  "AOT compile clojure namespaces"
+  [params]
+  (tasks/compile-clj (normalise-aliases params)))

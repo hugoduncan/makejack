@@ -16,7 +16,8 @@
          (namespace-deps/parse-form form))))
 
 (deftest dependencies-test
-  (is (= '{:namespace a.b.c
-           :imports   #{a.b.c d.e f.g.h},
-           :requires  #{a b c.d c.e }}
-         (namespace-deps/dependencies (io/resource "abc.clj")))))
+  (testing "dependencies returns a map of namespace dependencies"
+    (is (= '{:namespace abc
+             :imports   #{a.b.c d.e f.g.h},
+             :requires  #{a b c.d c.e }}
+           (namespace-deps/dependencies (io/resource "abc.clj"))))))

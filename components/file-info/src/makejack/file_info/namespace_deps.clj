@@ -58,7 +58,6 @@
    imports))
 
 (defn normalise-require [req]
-  (prn :req req)
   (cond
     (symbol? req)                 req
     (and (sequential? req)

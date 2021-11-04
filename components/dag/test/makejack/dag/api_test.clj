@@ -34,4 +34,20 @@
       (is (= #{:c} (dag/parents g :d)))
       (is (= #{:a} (dag/transitive-parents g :b)))
       (is (= #{:a} (dag/transitive-parents g :c)))
-      (is (= #{:a :c} (dag/transitive-parents g :d))))))
+      (is (= #{:a :c} (dag/transitive-parents g :d)))))
+  (testing "sort order is correct"
+    (let [g  (-> (dag/graph)
+                 (dag/add-edge :a :b)
+                 (dag/add-edge :a :c)
+                 (dag/add-edge :c :d))
+          ks [:a :b :c :d]]
+      (is (= [:a :c :b :d]
+             (dag/topo-sort
+              (:child-edges g)
+              (:parent-edges g)
+              ks)))
+      (is (= [:b :d :c :a]
+             (dag/topo-sort
+              (:parent-edges g)
+              (:child-edges g)
+              ks))))))

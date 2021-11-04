@@ -29,9 +29,12 @@
   "Return the project basis
   :mvn/local dependencies are converted to use source paths."
   [params]
-  (binding [b/*project-root* (:dir params ".")]
-    (-> (b/create-basis (select-keys params [:project]))
-        poly/lift-local-deps)))
+  (let [aliases (:aliases params)]
+    (binding [b/*project-root* (:dir params ".")]
+      (-> (b/create-basis (select-keys
+                           params
+                           [:aliases :project :root :user :extra]))
+          poly/lift-local-deps))))
 
 (defn paths
   "Return the basis :paths"
