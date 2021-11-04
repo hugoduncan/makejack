@@ -1,6 +1,7 @@
 {:deps
  {org.clojure/clojure   {:mvn/version "1.10.3"}
   makejack/tasks        {:local/root "../../bases/tasks"}
+  makejack/build        {:local/root "../../bases/build"}
   makejack/dag          {:local/root "../../components/dag"}
   makejack/defaults     {:local/root "../../components/defaults"}
   makejack/file-changed {:local/root "../../components/file-changed"}
@@ -9,6 +10,7 @@
   makejack/files        {:local/root "../../components/files"}
   makejack/filesystem   {:local/root "../../components/filesystem"}
   makejack/git          {:local/root "../../components/git"}
+  makejack/jarfile      {:local/root "../../components/jarfile"}
   makejack/path         {:local/root "../../components/path"}
   makejack/poly         {:local/root "../../components/poly"}
   makejack/project-data {:local/root "../../components/project-data"}

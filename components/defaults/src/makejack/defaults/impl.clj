@@ -8,7 +8,7 @@
 (defn target-path
   "Return the target directory."
   [params]
-  (:target params "target"))
+  (:target params (str (path/path (:dir params ".") "target"))))
 
 (defn classes-path
   "Return the classes directory."

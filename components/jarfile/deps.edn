@@ -1,0 +1,7 @@
+{:paths ["src"]
+ :deps  {makejack/path {:local/root "../../components/path"}}
+ :aliases
+ {:test
+  {:extra-paths ["test"]
+   :extra-deps  {io.github.clojure/tools.build
+                 {:git/tag "v0.6.2" :git/sha "226fb52"}}}}}

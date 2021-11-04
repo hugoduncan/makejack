@@ -78,3 +78,8 @@
   "AOT compile clojure namespaces"
   [params]
   (tasks/compile-clj (normalise-aliases params)))
+
+(defn javac
+  "javaac compile java classes"
+  [params]
+  (tasks/javac (normalise-aliases params)))

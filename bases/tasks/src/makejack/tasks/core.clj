@@ -65,17 +65,18 @@
         src-dirs  (defaults/paths basis)
         class-dir (str (defaults/classes-path params))
         relative? (complement path/absolute?)]
-    (b/write-pom {:basis     (update basis :paths
-                                     #(filterv relative? %))
-                  :class-dir class-dir
-                  :lib       (:name params)
-                  :version   (:version params)})
-    (b/copy-dir {:src-dirs   src-dirs
-                 :target-dir class-dir
-                 :ignores    (defaults/jar-ignores)})
-    (b/jar {:class-dir class-dir
-            :jar-file  (str jar-path)})
-    params))
+    (binding [b/*project-root* (:dir params ".")]
+      (b/write-pom {:basis     (update basis :paths
+                                       #(filterv relative? %))
+                    :class-dir class-dir
+                    :lib       (:name params)
+                    :version   (:version params)})
+      (b/copy-dir {:src-dirs   src-dirs
+                   :target-dir class-dir
+                   :ignores    (defaults/jar-ignores)})
+      (b/jar {:class-dir class-dir
+              :jar-file  (str jar-path)}))
+    (assoc params :jar-file (str jar-path))))
 
 (defn uber
   "Build an uberjar file"
@@ -172,7 +173,7 @@
   "Return namespace tree info."
   [params]
   (let [basis    (defaults/basis params)
-        info-map (files/info-map (defaults/paths basis))]
+        info-map (files/info-map params (defaults/paths basis))]
     (println "Unreferenced namespaces"
              (files/top-level-nses info-map))
     (clojure.pprint/pprint
@@ -182,14 +183,28 @@
   "AOT complilation"
   [params]
   (v/println params "compile-clj...")
+  (let [basis     (defaults/basis params)
+        class-dir (defaults/classes-path params)
+        info-map  (files/info-map params (defaults/paths basis))
+        _         (assert (some? info-map))
+        nses      (files/topo-namespaces info-map)]
+    (binding [b/*project-root* (:dir params ".")]
+      (b/compile-clj
+       {:class-dir  class-dir
+        :basis      basis
+        :ns-compile (remove #(re-matches #"hooks.*" (str %)) nses) }))
+    (assoc params :class-dir class-dir)))
+
+(defn javac
+  "Java complilation"
+  [params]
+  (v/println params "compile-java...")
   (let [basis (defaults/basis params)]
-    (b/compile-clj
+    (b/javac
      {:class-dir  (defaults/classes-path params)
       :basis      basis
-      :ns-compile (remove
-                   #(re-matches #"hooks.*" (str %))
-                   (files/topo-namespaces
-                    (files/info-map (defaults/paths basis)))) })))
+      :src-dirs   (:java-paths basis)
+      :javac-opts (:javac-opts params)})))
 
 
 ;; (defn exec-alias

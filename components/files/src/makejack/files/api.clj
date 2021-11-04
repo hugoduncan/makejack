@@ -7,8 +7,8 @@
 
 (defn info-map
   "Return a new file info map."
-  [paths]
-  (impl/info-map paths))
+  [params paths]
+  (impl/info-map params paths))
 
 (defn add-files
   "Add files to the info-map."

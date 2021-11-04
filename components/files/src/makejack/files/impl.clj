@@ -71,11 +71,11 @@
 
 (defn info-map
   "Return a new file info map."
-  [paths]
+  [params paths]
   (reduce
    add-path-info
-   {}
-   paths))
+   {:ns-dag (dag/graph)}
+   (mapv #(path/path (:dir params ".") %) paths)))
 
 (defn topo-namespaces
   "Return namespaces in topological order."
@@ -83,6 +83,7 @@
   (let [ns->path (:ns->path info-map)
         nses     (keys ns->path)
         ns-dag   (:ns-dag info-map)]
+    (assert (some? ns-dag))
     (->> (dag/topo-sort (:child-edges ns-dag) (:parent-edges ns-dag) nses)
          (filterv ns->path))))
 

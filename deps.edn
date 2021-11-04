@@ -1,4 +1,6 @@
-{:paths    []
+{:paths      []
+ :java-paths ["java"]
+
  :jvm-opts ["-Dclojure.main.report=stderr"]
  :aliases
  {:dev
@@ -14,6 +16,7 @@
     makejack/files               {:local/root "components/files"}
     makejack/filesystem          {:local/root "components/filesystem"}
     makejack/git                 {:local/root "components/git"}
+    makejack/jarfile             {:local/root "components/jarfile"}
     makejack/path                {:local/root "components/path"}
     makejack/poly                {:local/root "components/poly"}
     makejack/project-data        {:local/root "components/project-data"}
@@ -29,7 +32,8 @@
                        "components/file-info/test"
                        "components/file-info/test-resources"
                        "components/files/test"
-                       "components/file-info/test"]
+                       "components/file-info/test"
+                       "components/jarfile/test"]
          :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
          :exec-fn     kaocha.runner/exec-fn
          :exec-args   {}

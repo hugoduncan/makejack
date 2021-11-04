@@ -73,6 +73,8 @@
   "Topological sort.
   Uses Kahns algorith."
   [child-edges parent-edges ks]
+  (assert (map? child-edges))
+  (assert (map? parent-edges))
   (let [zero-k (fn [k]
                  (when (zero? (count (parent-edges k)))
                    k))
