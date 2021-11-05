@@ -62,7 +62,7 @@
   [params]
   (tasks/ns-tree params))
 
-(defn aliases-spec-to-aliases
+(defn- aliases-spec-to-aliases
   [spec]
   (cond
     (keyword? spec) [spec]
