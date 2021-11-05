@@ -56,16 +56,43 @@
   "Build a jar file"
   [params]
   (v/println params "Build jar...")
-  (let [params    (defaults/project-data params)
-        params    (project-data/expand-version params)
-        jar-path  (path/path
-                   (defaults/target-path params)
-                   (defaults/jar-filename params))
-        basis     (or (:basis params) (defaults/basis params))
-        src-dirs  (defaults/paths basis)
-        class-dir (str (defaults/classes-path params))
-        relative? (complement path/absolute?)]
-    (binding [b/*project-root* (:dir params ".")]
+  (binding [b/*project-root* (:dir params ".")]
+    (let [params    (defaults/project-data params)
+          params    (project-data/expand-version params)
+          jar-path  (path/path
+                     (defaults/target-path params)
+                     (defaults/jar-filename params))
+          basis     (or (:basis params) (defaults/basis params))
+          src-dirs  (defaults/paths basis)
+          class-dir (str (defaults/classes-path params))
+          relative? (complement path/absolute?)]
+      (binding [b/*project-root* (:dir params ".")]
+        (b/write-pom {:basis     (update basis :paths
+                                         #(filterv relative? %))
+                      :class-dir class-dir
+                      :lib       (:name params)
+                      :version   (:version params)})
+        (b/copy-dir {:src-dirs   src-dirs
+                     :target-dir class-dir
+                     :ignores    (defaults/jar-ignores)})
+        (b/jar {:class-dir class-dir
+                :jar-file  (str jar-path)}))
+      (assoc params :jar-file (str jar-path)))))
+
+(defn uber
+  "Build an uberjar file"
+  [params]
+  (v/println params "Build uberjar...")
+  (binding [b/*project-root* (:dir params ".")]
+    (let [params    (defaults/project-data params)
+          params    (project-data/expand-version params)
+          jar-path  (path/path
+                     (defaults/target-path params)
+                     (defaults/jar-filename params))
+          basis     (or (:basis params) (defaults/basis params))
+          src-dirs  (defaults/paths basis)
+          class-dir (str (defaults/classes-path params))
+          relative? (complement path/absolute?)]
       (b/write-pom {:basis     (update basis :paths
                                        #(filterv relative? %))
                     :class-dir class-dir
@@ -74,34 +101,13 @@
       (b/copy-dir {:src-dirs   src-dirs
                    :target-dir class-dir
                    :ignores    (defaults/jar-ignores)})
-      (b/jar {:class-dir class-dir
-              :jar-file  (str jar-path)}))
-    (assoc params :jar-file (str jar-path))))
-
-(defn uber
-  "Build an uberjar file"
-  [params]
-  (v/println params "Build uberjar...")
-  (let [params    (defaults/project-data params)
-        params    (project-data/expand-version params)
-        jar-path  (path/path
-                   (defaults/target-path params)
-                   (defaults/jar-filename params))
-        basis     (or (:basis params) (defaults/basis params))
-        src-dirs  (defaults/paths basis)
-        class-dir (str (defaults/classes-path params))
-        relative? (complement path/absolute?)]
-    (b/write-pom {:basis     (update basis :paths
-                                     #(filterv relative? %))
-                  :class-dir class-dir
-                  :lib       (:name params)
-                  :version   (:version params)})
-    (b/copy-dir {:src-dirs   src-dirs
-                 :target-dir class-dir
-                 :ignores    (defaults/jar-ignores)})
-    (b/uber {:class-dir class-dir
-             :uber-file (str jar-path)})
-    params))
+      (b/uber (merge
+               (select-keys
+                params
+                [:conflict-handlers :exclude :manifest :main])
+               {:class-dir class-dir
+                :uber-file (str jar-path)}))
+      (assoc params :jar-file (str jar-path)))))
 
 (defn install
   "install jar to local maven repository."

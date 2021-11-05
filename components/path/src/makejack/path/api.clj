@@ -67,6 +67,11 @@
   [path-like]
   (.isAbsolute (path path-like)))
 
+(defn normalize
+  "Remove redundant path elements."
+  [path-like]
+  (.normalize (path path-like)))
+
 (defn path-with-extension
   "Return the path with extension added to it.
   The extension is a string, including any required dot."
