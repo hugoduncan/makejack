@@ -66,4 +66,7 @@
    :paths      []
    :ns-default makejack.build.targets
    :jvm-opts   ["-Dclojure.main.report=stderr"]
-   }}}
+   }
+
+  :cljfmt {:deps      {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+           :main-opts ["-m" "cljfmt.main" "check"]}}}
