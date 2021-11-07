@@ -1,18 +1,18 @@
 (ns makejack.defaults.impl
   (:require
+   [babashka.fs :as fs]
    [clojure.tools.build.api :as b]
-   [makejack.path.api :as path]
    [makejack.project-data.api :as project-data]))
 
 (defn target-path
   "Return the target directory."
   [params]
-  (:target params (str (path/path (:dir params ".") "target"))))
+  (:target params (str (fs/path (:dir params ".") "target"))))
 
 (defn classes-path
   "Return the classes directory."
   [params]
-  (str (path/path (target-path params) (:classes-dir params "classes"))))
+  (str (fs/path (target-path params) (:classes-dir params "classes"))))
 
 
 (defn project-data

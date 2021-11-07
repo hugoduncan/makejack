@@ -1,12 +1,12 @@
 (ns makejack.tasks.poly
   "Tasks for working with polylith projects."
   (:require
+   [babashka.fs :as fs]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
    [makejack.files.api :as files]
    [makejack.git.api :as git]
-   [makejack.path.api :as path]
    [makejack.poly.api :as poly]
    [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
@@ -34,7 +34,7 @@
   [params]
   (let [{:keys [ws-dir] :as ws} (poly/workspace params)
         changes                 (poly/changed-elements ws)
-        config-dir              (str (path/path ws-dir ".clj-kondo"))]
+        config-dir              (str (fs/path ws-dir ".clj-kondo"))]
     (doseq [change changes]
       (clj-kondo (merge params {:dir change :config-dir config-dir})))))
 

@@ -1,5 +1,4 @@
 {:paths   ["src"]
- :deps    {makejack/filesystem {:local/root "../filesystem"}
-           makejack/path       {:local/root "../path"}}
+ :deps    {babashka/fs {:mvn/version "0.1.0"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

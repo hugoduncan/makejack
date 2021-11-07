@@ -70,9 +70,6 @@ supported.
 
 Build helpers for polylith (like) monorepo projects.
 
-## `makejack.path` and `makejack.filesystem`
-
-Helpers for manipulating paths and the filesystem.
 
 
 # Development

@@ -1,8 +1,7 @@
 {:paths   ["src"]
- :deps    {makejack/dag        {:local/root "../../components/dag"}
-           makejack/file-hash  {:local/root "../../components/file-hash"}
-           makejack/file-info  {:local/root "../../components/file-info"}
-           makejack/filesystem {:local/root "../../components/filesystem"}
-           makejack/path       {:local/root "../../components/path"}}
+ :deps    {makejack/dag       {:local/root "../../components/dag"}
+           makejack/file-hash {:local/root "../../components/file-hash"}
+           makejack/file-info {:local/root "../../components/file-info"}
+           babashka/fs        {:mvn/version "0.1.0"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {}}}}

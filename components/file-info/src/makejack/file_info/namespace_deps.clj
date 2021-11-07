@@ -1,9 +1,9 @@
 (ns makejack.file-info.namespace-deps
   (:refer-clojure :exclude [ns-imports])
   (:require
+   [babashka.fs :as fs]
    [clojure.java.io :as io]
-   [clojure.tools.reader :as reader]
-   [makejack.path.api :as path])
+   [clojure.tools.reader :as reader])
   (:import
    [java.io PushbackReader]))
 
@@ -35,7 +35,7 @@
   ([path features]
    (with-open [reader (PushbackReader.
                        (io/reader
-                        (path/as-file (path/as-path path))))]
+                        (fs/file (fs/path path))))]
      (read-namespace-declaration reader (read-features features)))))
 
 

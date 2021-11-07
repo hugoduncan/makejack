@@ -1,7 +1,6 @@
 {:paths   ["src"]
  :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
-           makejack/filesystem           {:local/root "../filesystem"}
-           makejack/path                 {:local/root "../path"}
+           babashka/fs                   {:mvn/version "0.1.0"}
            makejack/project-data         {:local/root "../project-data"}}
  :aliases {:test
            {:extra-paths ["test"]

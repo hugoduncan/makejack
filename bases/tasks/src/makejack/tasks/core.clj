@@ -12,12 +12,12 @@
   The :lib and :version keys are populated from `project.edn` if
   present, else must be manually supplied."
   (:require
+   [babashka.fs :as fs]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
    [makejack.files.api :as files]
    [makejack.git.api :as git]
-   [makejack.path.api :as path]
    [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
    [makejack.verbose.api :as v]))
@@ -58,13 +58,13 @@
   (binding [b/*project-root* (:dir params ".")]
     (let [params    (defaults/project-data params)
           params    (project-data/expand-version params)
-          jar-path  (path/path
+          jar-path  (fs/path
                      (defaults/target-path params)
                      (defaults/jar-filename params))
           basis     (or (:basis params) (defaults/basis params))
           src-dirs  (defaults/paths basis)
           class-dir (str (defaults/classes-path params))
-          relative? (complement path/absolute?)]
+          relative? (complement fs/absolute?)]
       (binding [b/*project-root* (:dir params ".")]
         (b/write-pom {:basis     (update basis :paths
                                          #(filterv relative? %))
@@ -85,13 +85,13 @@
   (binding [b/*project-root* (:dir params ".")]
     (let [params    (defaults/project-data params)
           params    (project-data/expand-version params)
-          jar-path  (path/path
+          jar-path  (fs/path
                      (defaults/target-path params)
                      (defaults/jar-filename params))
           basis     (or (:basis params) (defaults/basis params))
           src-dirs  (defaults/paths basis)
           class-dir (str (defaults/classes-path params))
-          relative? (complement path/absolute?)]
+          relative? (complement fs/absolute?)]
       (b/write-pom {:basis     (update basis :paths
                                        #(filterv relative? %))
                     :class-dir class-dir
@@ -114,7 +114,7 @@
   (v/println params "Install jar...")
   (let [params    (defaults/project-data params)
         params    (project-data/expand-version params)
-        jar-path  (path/path
+        jar-path  (fs/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))
         basis     (or (:basis params) (defaults/basis params))

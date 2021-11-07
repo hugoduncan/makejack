@@ -1,15 +1,14 @@
 (ns makejack.files.impl
   (:require
+   [babashka.fs :as fs]
    [makejack.dag.api :as dag]
    [makejack.file-hash.api :as file-hash]
-   [makejack.file-info.api :as file-info]
-   [makejack.filesystem.api :as filesystem]
-   [makejack.path.api :as path]))
+   [makejack.file-info.api :as file-info]))
 
 (defn add-file
   "Add file to the info-map."
   [info-map path]
-  (let [p        (path/path path)
+  (let [p        (fs/path path)
         info     (-> (file-info/file-info p)
                      (assoc :path (str p)))
         p-ns     (:namespace info)
@@ -45,7 +44,7 @@
 
 (defn file-changed [info-map path]
   (let [file-info         (-> info-map :path->file-info (get path))
-        new-last-modified (filesystem/last-modified path)
+        new-last-modified (fs/file-time->millis (fs/last-modified-time path))
         new-file-hash     (when (> new-last-modified (:last-modified file-info))
                             (file-hash/hash path))]
     (if (= new-file-hash (:file-hash file-info))
@@ -67,7 +66,7 @@
   [info-map path]
   (add-files
    info-map
-   (filterv filesystem/file? (filesystem/list-paths path))))
+   (filterv fs/regular-file? (fs/glob path "**"))))
 
 (defn info-map
   "Return a new file info map."
@@ -75,7 +74,7 @@
   (reduce
    add-path-info
    {:ns-dag (dag/graph)}
-   (mapv #(path/path (:dir params ".") %) paths)))
+   (mapv #(fs/path (:dir params ".") %) paths)))
 
 (defn topo-namespaces
   "Return namespaces in topological order."

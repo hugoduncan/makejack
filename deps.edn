@@ -17,7 +17,6 @@
     makejack/filesystem          {:local/root "components/filesystem"}
     makejack/git                 {:local/root "components/git"}
     makejack/jarfile             {:local/root "components/jarfile"}
-    makejack/path                {:local/root "components/path"}
     makejack/poly                {:local/root "components/poly"}
     makejack/project-data        {:local/root "components/project-data"}
     makejack/target-doc          {:local/root "components/target-doc"}

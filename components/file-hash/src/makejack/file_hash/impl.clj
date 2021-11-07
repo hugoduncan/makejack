@@ -1,7 +1,7 @@
 (ns makejack.file-hash.impl
   (:require
-   [clojure.java.io :as io]
-   [makejack.path.api :as path])
+   [babashka.fs :as fs]
+   [clojure.java.io :as io])
   (:import
    [java.nio.charset
     StandardCharsets]
@@ -32,7 +32,7 @@
         bytes (byte-array n)]
     (with-open [dis (DigestInputStream.
                      (io/input-stream
-                      (path/as-file path-like))
+                      (fs/file path-like))
                      md)]
       (loop []
         (when (pos? (.read dis bytes 0 n))

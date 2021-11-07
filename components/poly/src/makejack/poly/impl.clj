@@ -1,7 +1,7 @@
 (ns makejack.poly.impl
   (:require
+   [babashka.fs :as fs]
    [clojure.string :as str]
-   [makejack.path.api :as path]
    [polylith.clj.core.api.interface :as poly-api]))
 
 (defn lift-local-deps
@@ -36,12 +36,6 @@
                              deps))
                          {}
                          libs)]
-    ;; (prn :poly (get libs 'polylith/clj-api))
-    ;; (prn :poly-util (get libs 'poly/util))
-    ;; (prn :makejack-path (get libs 'makejack/path))
-    ;; (prn :libs (keys libs))
-    ;; (prn :transitive-deps transitive-deps)
-    ;; (prn :local-paths local-paths)
     (-> basis
         (update :libs #(into {} (remove (comp :local/root val)) %))
         (update :libs merge transitive-libs)
@@ -54,7 +48,7 @@
 
 (defn element-paths
   [prefix elements]
-  (mapv (fn [p] (str (path/path (name prefix) (:name p)))) elements))
+  (mapv (fn [p] (str (fs/path (name prefix) (:name p)))) elements))
 
 (defn elements
   [ws]
@@ -72,7 +66,7 @@
 
 (defn changed-element-paths
   [prefix elements]
-  (mapv (fn [p] (str (path/path (name prefix)  p))) elements))
+  (mapv (fn [p] (str (fs/path (name prefix)  p))) elements))
 
 (defn changed-element
   [ws]
