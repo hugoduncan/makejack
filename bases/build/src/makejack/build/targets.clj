@@ -49,14 +49,6 @@
   When the :init keyword is true, then intialise with all dependencies."
   [params]
   (tasks/clj-kondo params))
-
-(defn poly-clj-kondo
-  "Run clj-kondo over a polylith project.
-  Assumes a .clj-kondo config at the polylith root.
-  When the :init keyword is true, then intialise with all dependencies."
-  [params]
-  (tasks/poly-clj-kondo params))
-
 (defn ns-tree
   "Return namespace tree info."
   [params]
@@ -83,3 +75,29 @@
   "javaac compile java classes"
   [params]
   (tasks/javac (normalise-aliases params)))
+
+(defn poly
+  "Run a mj task on a polylith project.
+
+  Unrecognised options are passed to the target.
+
+  Options:
+    - :on     as per `poly test`, e.g :project
+    - :target  the mj target to invoke."
+  [params]
+  ((requiring-resolve 'makejack.tasks.poly/poly)
+   (normalise-aliases params)))
+
+(defn poly-clj-kondo
+  "Run clj-kondo over a polylith project.
+  Assumes a .clj-kondo config at the polylith root.
+  When the :init keyword is true, then intialise with all dependencies."
+  [params]
+  ((requiring-resolve 'makejack.tasks.poly/poly-clj-kondo)
+   params))
+
+(defn poly-main
+  "clojure -m in namespaces"
+  [params]
+  ((requiring-resolve 'makejack.tasks.poly/poly-main)
+   (normalise-aliases params)))

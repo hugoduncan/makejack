@@ -2,8 +2,7 @@
  :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
            makejack/filesystem           {:local/root "../filesystem"}
            makejack/path                 {:local/root "../path"}
-           makejack/project-data         {:local/root "../project-data"}
-           makejack/poly                 {:local/root "../poly"}}
+           makejack/project-data         {:local/root "../project-data"}}
  :aliases {:test
            {:extra-paths ["test"]
             :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}

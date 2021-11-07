@@ -2,7 +2,6 @@
   (:require
    [clojure.tools.build.api :as b]
    [makejack.path.api :as path]
-   [makejack.poly.api :as poly]
    [makejack.project-data.api :as project-data]))
 
 (defn target-path
@@ -33,8 +32,7 @@
     (binding [b/*project-root* (:dir params ".")]
       (-> (b/create-basis (select-keys
                            params
-                           [:aliases :project :root :user :extra]))
-          poly/lift-local-deps))))
+                           [:aliases :project :root :user :extra]))))))
 
 (defn paths
   "Return the basis :paths"

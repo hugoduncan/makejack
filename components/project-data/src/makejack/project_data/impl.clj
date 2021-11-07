@@ -46,7 +46,7 @@
 (defmethod expand-component :git-rev-count
   [_component] (edn/read-string (b/git-count-revs nil)))
 
-(def reverse-date-fmt (java.text.SimpleDateFormat. "yyyy.MM.dd"))
+(def reverse-date-fmt "" #_(java.text.SimpleDateFormat. "yyyy.MM.dd"))
 
 (defmethod expand-component :reverse-date
   [_component] (.format reverse-date-fmt (java.util.Date.)))

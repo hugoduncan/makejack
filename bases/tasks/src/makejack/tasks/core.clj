@@ -18,7 +18,6 @@
    [makejack.files.api :as files]
    [makejack.git.api :as git]
    [makejack.path.api :as path]
-   [makejack.poly.api :as poly]
    [makejack.project-data.api :as project-data]
    [makejack.target-doc.api :as target-doc]
    [makejack.verbose.api :as v]))
@@ -165,16 +164,6 @@
     params))
 
 
-;; TODO change this to invoke at top level with just the changed tests?
-(defn poly-clj-kondo
-  "Run clj-kondo on a polylith project."
-  [params]
-  (let [{:keys [ws-dir] :as ws} (poly/workspace params)
-        changes                 (poly/changed-elements ws)
-        config-dir              (str (path/path ws-dir ".clj-kondo"))]
-    (doseq [change changes]
-      (clj-kondo (merge params {:dir change :config-dir config-dir})))))
-
 (defn ns-tree
   "Return namespace tree info."
   [params]
@@ -211,29 +200,3 @@
       :basis      basis
       :src-dirs   (:java-paths basis)
       :javac-opts (:javac-opts params)})))
-
-
-;; (defn exec-alias
-;;   [{:keys [alias fn args all dir] :or {dir "."}}]
-;;   (let [ws (workspace)]
-;;     (doseq [component (:components workspace)]
-;;       (-> {:command-args ["clojure" "-T"]
-;;            :dir          (.getPath (b/resolve-path dir))
-;;            :out          :capture}
-;;           b/process
-;;           :out))))
-
-;; (defn exec-cmd
-;;   [{:keys [cmd args all dir] :or {dir "."}}]
-;;   (let [ws   (workspace)
-;;         args (mapv identity args)]
-;;     (doseq [component (:components ws)]
-;;       (prn
-;;        (-> {:command-args (into [cmd] args)
-;;             :dir          (str (path/path
-;;                                 (b/resolve-path dir)
-;;                                 "components"
-;;                                 (:name component)))
-;;             :out          :inherit}
-;;            b/process
-;;            )))))

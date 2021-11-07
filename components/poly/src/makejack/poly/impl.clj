@@ -1,6 +1,6 @@
 (ns makejack.poly.impl
   (:require
-   [clojure.pprint]
+   [clojure.string :as str]
    [makejack.path.api :as path]
    [polylith.clj.core.api.interface :as poly-api]))
 
@@ -87,3 +87,33 @@
      into
      []
      (mapv f [:components :bases :projects]))))
+
+
+(defn resolve-project
+  [ws spec]
+  (prn :spec spec)
+  (cond
+    (nil? spec)
+    (prn :changed-projects)
+    (= 'all spec)
+    (prn :all-projects)
+    :else
+    (prn :project-name spec)))
+
+(defn resolve-elements
+  "Given a polylith spec string, return paths to the resolved elements.
+
+  "
+  [ws spec]
+  (let [ws    (or ws {})
+        specs (mapv symbol (remove str/blank? (str/split (str spec) #":")))]
+    (prn :specs specs)
+    (cond
+      (= 'project (first specs))
+      (resolve-project ws (second specs))
+      (= 'brick (first specs))
+      (prn :brick specs)
+      (= 'base (first specs))
+      (prn :base specs)
+      (= 'component (first specs))
+      (prn :component specs))))
