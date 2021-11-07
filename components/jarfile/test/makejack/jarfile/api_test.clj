@@ -5,20 +5,12 @@
    [clojure.tools.build.api :as b]
    [makejack.jarfile.api :as jarfile]))
 
-(defn parent [path]
-  (if-let [p (fs/parent path)]
-    p
-    (fs/path path "..")))
-
-
 ;; helper so we can run tests from polylith root repl
 (def dir (-> (fs/absolutize *file*)
              fs/parent
              fs/parent
              fs/parent
              fs/parent))
-
-(prn :file (fs/absolutize *file*)  :dir dir)
 
 (deftest paths-test
   (let [jar-path (fs/path dir "target" "jarfile.jar")]

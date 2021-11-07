@@ -104,11 +104,17 @@
   Assumes a .clj-kondo config at the polylith root.
   When the :init keyword is true, then intialise with all dependencies."
   [params]
-  ((requiring-resolve 'makejack.tasks.poly/poly-clj-kondo)
+  ((requiring-resolve 'makejack.tasks.poly-clj-kondo/poly-clj-kondo)
    params))
 
 (defn poly-main
-  "clojure -m in namespaces"
+  "clojure -M in namespaces"
   [params]
-  ((requiring-resolve 'makejack.tasks.poly/poly-main)
+  ((requiring-resolve 'makejack.tasks.poly-clj-cli/poly-main)
+   (normalise-aliases params)))
+
+(defn poly-exec
+  "clojure -X in namespaces"
+  [params]
+  ((requiring-resolve 'makejack.tasks.poly-clj-cli/poly-exec)
    (normalise-aliases params)))

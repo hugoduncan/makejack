@@ -20,3 +20,8 @@
       (is (fs/exists? (fs/path dir "xx"))))
     (is (not (fs/exists? (fs/path @capture-dir "xx"))))
     (is (not (fs/exists? @capture-dir)))))
+
+(deftest clj-kondo-config-test
+  (is
+   (clojure.java.io/resource
+    "clj-kondo.exports/org.hugoduncan/makejack-filesystem/config.edn")))

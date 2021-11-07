@@ -26,13 +26,20 @@
     rewrite-clj/rewrite-clj      {:mvn/version "1.0.699-alpha"}}
    :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
 
-  :test {:extra-paths ["components/file-changed/test"
+  :test {:extra-paths ["components/dag/test"
+                       "components/defaults/test"
+                       "components/file-changed/test"
                        "components/file-hash/test"
                        "components/file-info/test"
                        "components/file-info/test-resources"
                        "components/files/test"
-                       "components/file-info/test"
-                       "components/jarfile/test"]
+                       "components/filesystem/test"
+                       "components/git/test"
+                       "components/jarfile/test"
+                       "components/poly/test"
+                       "components/project-data/test"
+                       "components/target-doc/test"
+                       "components/verbose/test"]
          :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
          :exec-fn     kaocha.runner/exec-fn
          :exec-args   {}
