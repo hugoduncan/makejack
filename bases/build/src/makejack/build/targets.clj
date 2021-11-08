@@ -2,8 +2,16 @@
   "Build targets to build makejack itself.
 
   Uses a selection of makejack tasks."
+  (:refer-clojure :exclude [require])
   (:require
-   [clojure.string :as str]))
+   [clojure.string :as str]
+   [makejack.build.impl :as impl]))
+
+(defmacro require
+  [& target-specs]
+  `(do
+     ~@(for [spec target-specs]
+         (impl/wrap-one spec))))
 
 (defn ^{:doc-order 0 :params "[:target target-name]"} help
   "Show help
@@ -12,7 +20,7 @@
   [params]
   ;; TODO: make this a function in target-doc
   ((requiring-resolve 'makejack.tasks.help/help)
-   params 'makejack.build.targets))
+   (merge {:ns 'makejack.build.targets} params)))
 
 (defn clean
   "Remove all built files"
@@ -117,4 +125,10 @@
   "clojure -X in namespaces"
   [params]
   ((requiring-resolve 'makejack.tasks.poly-clj-cli/poly-exec)
+   (normalise-aliases params)))
+
+(defn poly-tool
+  "clojure -T in namespaces"
+  [params]
+  ((requiring-resolve 'makejack.tasks.poly-clj-cli/poly-tool)
    (normalise-aliases params)))

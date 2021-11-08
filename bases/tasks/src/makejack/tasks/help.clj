@@ -6,9 +6,8 @@
   "Show help
 
   Use :target to get detailed help on a specific target."
-  ([params] (help params 'makejack.tasks.core))
-  ([params ns-ref]
-   ;; TODO: make this a function in target-doc
-   (println)
-   (println (target-doc/help-task params ns-ref))
-   params))
+  [params]
+  ;; TODO: make this a function in target-doc
+  (println)
+  (println (target-doc/help-task params))
+  params)

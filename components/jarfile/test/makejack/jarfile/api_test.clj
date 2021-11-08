@@ -3,17 +3,22 @@
    [babashka.fs :as fs]
    [clojure.test :refer [deftest is testing]]
    [clojure.tools.build.api :as b]
-   [makejack.jarfile.api :as jarfile]))
+   [makejack.jarfile.api :as jarfile]
+   [makejack.poly.api :as poly]))
 
 ;; helper so we can run tests from polylith root repl
-(def dir (-> (fs/absolutize *file*)
-             fs/parent
-             fs/parent
-             fs/parent
-             fs/parent))
+(def ws (poly/workspace {:keys [:ws-dir]}))
+
+(def dir (fs/path
+          (:ws-dir ws)
+          "components"
+          "jarfile"))
+
+(prn :dir dir)
 
 (deftest paths-test
   (let [jar-path (fs/path dir "target" "jarfile.jar")]
+    (prn :jar-parh)
     (b/jar {:basis     (b/create-basis {:dir (str dir)})
             :class-dir (str (fs/path dir "src"))
             :jar-file  (str jar-path)})

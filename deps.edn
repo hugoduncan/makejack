@@ -59,12 +59,13 @@
                        :deps/root "projects/poly"}}}
 
   :build
-  {:deps
+  {#_#_:paths  ["."]
+   :deps
    {makejack/build {:local/root "bases/build"}
     makejack/tasks {:local/root "bases/tasks"}
     }
-   :paths      []
-   :ns-default makejack.build.targets
+   :ns-default build
+   :exec-fn    help
    :jvm-opts   ["-Dclojure.main.report=stderr"]
    }
 
