@@ -29,16 +29,21 @@
 (defn ^{:params []} cljfmt
   "Run `cljfmt check` on workspac"
   [params]
-  (targets/poly-main {:aliases [:cljfmt] :args ["check"]}))
+  (targets/poly-main
+   (merge
+    (select-keys params [:verbose])
+    {:aliases [:cljfmt] :args ["check"]})))
 
 (defn ^{:params []} cljfmt-fix
   "Run `cljfmt fix` on workspace"
   [params]
-  (targets/poly-main {:aliases [:cljfmt] :args ["check"]}))
+  (merge
+   (select-keys params [:verbose])
+   (targets/poly-main {:aliases [:cljfmt] :args ["check"]})))
 
 (defn ^{:params []} test
   "Run `poly test` on workspace.
 
   Note: you can run `poly test` directly."
-  [params]
+  [_params]
   (b/process {:command-args ["poly" "test"] :out :inherit}))

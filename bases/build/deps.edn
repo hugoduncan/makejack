@@ -1,4 +1,12 @@
 {:paths   ["src"]
  :deps    {makejack/tasks {:local/root "../tasks"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {}}}}
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/build {:local/root "../../bases/build"}
+             makejack/tasks {:local/root "../../bases/tasks"}
+             }
+            :ns-default makejack.build.targets
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}
