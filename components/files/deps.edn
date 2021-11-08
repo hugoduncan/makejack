@@ -4,4 +4,12 @@
            makejack/file-info {:local/root "../../components/file-info"}
            babashka/fs        {:mvn/version "0.1.0"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {}}}}
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/build {:local/root "../../bases/build"}
+             makejack/tasks {:local/root "../../bases/tasks"}
+             }
+            :ns-default makejack.build.targets
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}
