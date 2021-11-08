@@ -4,10 +4,7 @@
    [clojure.edn :as edn]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
-   [rewrite-clj.zip :as z])
-  (:import
-   [java.util
-    Calendar]))
+   [rewrite-clj.zip :as z]))
 
 ;;; version <-> version-map
 
@@ -48,14 +45,12 @@
 (defmethod expand-component :git-rev-count
   [_component] (edn/read-string (b/git-count-revs nil)))
 
+(def ^:private formatter
+  (java.time.format.DateTimeFormatter/ofPattern "YYYY.MM.dd"))
+
 (defmethod expand-component :reverse-date
   [_component]
-  ;; No SimpleDateFormat in babashka
-  (let [c (Calendar/getInstance)]
-    (format "%4d.%02d.%02d"
-            (.get c Calendar/YEAR)
-            (.get c Calendar/MONTH)
-            (.get c Calendar/DAY_OF_MONTH))))
+  (.format formatter (java.time.LocalDate/now)))
 
 (defn expand-version-map
   [version-map]
