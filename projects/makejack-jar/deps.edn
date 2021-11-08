@@ -5,6 +5,7 @@
   makejack/build        {:local/root "../../bases/build"}
   makejack/dag          {:local/root "../../components/dag"}
   makejack/defaults     {:local/root "../../components/defaults"}
+  makejack/deps         {:local/root "../../components/deps"}
   makejack/file-changed {:local/root "../../components/file-changed"}
   makejack/file-hash    {:local/root "../../components/file-hash"}
   makejack/file-info    {:local/root "../../components/file-info"}

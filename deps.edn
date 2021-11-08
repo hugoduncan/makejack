@@ -10,6 +10,7 @@
     makejack/tasks               {:local/root "bases/tasks"}
     makejack/dag                 {:local/root "components/dag"}
     makejack/defaults            {:local/root "components/defaults"}
+    makejack/deps                {:local/root "components/deps"}
     makejack/file-changed        {:local/root "components/file-changed"}
     makejack/file-hash           {:local/root "components/file-hash"}
     makejack/file-info           {:local/root "components/file-info"}
@@ -28,6 +29,7 @@
 
   :test {:extra-paths ["components/dag/test"
                        "components/defaults/test"
+                       "components/deps/test"
                        "components/file-changed/test"
                        "components/file-hash/test"
                        "components/file-info/test"

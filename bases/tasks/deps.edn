@@ -4,6 +4,7 @@
   babashka/fs                   {:mvn/version "0.1.0"}
   makejack/dag                  {:local/root "../../components/dag"}
   makejack/defaults             {:local/root "../../components/defaults"}
+  makejack/deps                 {:local/root "../../components/deps"}
   makejack/file-changed         {:local/root "../../components/file-changed"}
   makejack/files                {:local/root "../../components/files"}
   makejack/git                  {:local/root "../../components/git"}

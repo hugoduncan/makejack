@@ -3,6 +3,7 @@
    [babashka.fs :as fs]
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
+   [makejack.deps.api :as mj-deps]
    [makejack.project-data.api :as project-data]
    [makejack.verbose.api :as v]))
 
@@ -16,7 +17,8 @@
           jar-path  (fs/path
                      (defaults/target-path params)
                      (defaults/jar-filename params))
-          basis     (or (:basis params) (defaults/basis params))
+          basis     (mj-deps/lift-local-deps
+                     (or (:basis params) (defaults/basis params)))
           src-dirs  (defaults/paths basis)
           class-dir (str (defaults/classes-path params))
           relative? (complement fs/absolute?)]
