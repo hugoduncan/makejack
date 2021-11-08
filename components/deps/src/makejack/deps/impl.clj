@@ -1,6 +1,5 @@
 (ns makejack.deps.impl)
 
-
 (defn lift-local-deps
   "Return a basis with :mvn/local deps converted to source dependencies.
   Adds transitive libs, and extends the paths."

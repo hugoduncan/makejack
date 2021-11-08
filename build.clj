@@ -15,7 +15,8 @@
    (merge params {:aliases        [:build]
                   :exec-fn        'build
                   :exec-args      {}
-                  :no-propagation true})))
+                  :no-propagation true
+                  :elements       [:projects]})))
 
 (defn ^{:params []} clean
   "Clean projects"

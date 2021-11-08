@@ -13,7 +13,9 @@
   [params switch-str]
   (let [ws         (poly/workspace params)
         aliases    (:aliases params)
-        changes    (poly/changed-elements ws)
+        changes    (poly/changed-elements
+                    ws
+                    (:elements params [:components :bases :projects]))
         basis      (defaults/basis params)
         alias-maps (select-keys (:aliases basis) aliases)
         cmd-args   (->

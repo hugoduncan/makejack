@@ -35,14 +35,10 @@
     (some->> (ws (keyword (str "changed-" (name e))))
              (changed-element-paths e))))
 
-(defn changed-elements [ws]
+(defn changed-elements [ws elements]
   (let [ws (or ws {})
         f  (changed-element (:changes ws {}))]
-    (reduce
-     into
-     []
-     (mapv f [:components :bases :projects]))))
-
+    (reduce into [] (mapv f elements))))
 
 (defn resolve-project
   [ws spec]
