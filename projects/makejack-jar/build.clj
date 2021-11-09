@@ -1,14 +1,12 @@
 (ns build
-  (:refer-clojure :exclude [test])
   (:require
-   [makejack.build.targets :as targets]))
+   [makejack.tasks :as tasks]))
 
-(targets/require
+(tasks/require
  help
  clean
  jar
  install
- changelog-init
  changelog-release
  tag-version)
 

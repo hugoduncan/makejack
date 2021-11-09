@@ -6,8 +6,7 @@
  {:dev
   {:extra-paths ["development/src"]
    :extra-deps
-   {makejack/build               {:local/root "bases/build"}
-    makejack/tasks               {:local/root "bases/tasks"}
+   {makejack/tasks               {:local/root "bases/tasks"}
     makejack/changelog           {:local/root "components/changelog"}
     makejack/dag                 {:local/root "components/dag"}
     makejack/defaults            {:local/root "components/defaults"}
@@ -63,9 +62,7 @@
 
   :build
   {:deps
-   {makejack/build {:local/root "bases/build"}
-    makejack/tasks {:local/root "bases/tasks"}
-    }
+   {makejack/tasks {:local/root "bases/tasks"}}
    :ns-default build
    :exec-fn    help
    :jvm-opts   ["-Dclojure.main.report=stderr"]}

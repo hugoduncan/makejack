@@ -4,7 +4,7 @@
    [clojure.set :as set]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]]
-   [makejack.build.targets :as targets]
+   [makejack.tasks :as tasks]
    [makejack.jarfile.api :as jarfile]))
 
 ;; helper so we can run tests from polylith root repl
@@ -19,13 +19,13 @@
   (testing "help prints a help string"
     (is (re-matches #"(?s)\s*help  Show help\n.*"
                     (with-out-str
-                      (targets/help {})))
+                      (tasks/help {})))
         "starts with the help target")
 
     (is (< 10 (count
                (str/split-lines
                 (with-out-str
-                  (targets/help {})))))
+                  (tasks/help {})))))
         "has many lines")))
 
 (deftest clean-test
@@ -33,19 +33,19 @@
     (let [path (fs/path dir "target")]
       (fs/create-dirs path)
       (is (fs/exists? path))
-      (is (= {:dir (str dir)} (targets/clean {:dir (str dir)})) "runs")
+      (is (= {:dir (str dir)} (tasks/clean {:dir (str dir)})) "runs")
       (is (not (fs/exists? path))))))
 
 (deftest jar-test
   (testing "jar creates a jar file containing the sources and resources"
-    (targets/clean {:dir (str dir)})
+    (tasks/clean {:dir (str dir)})
     (let [jar-path (fs/path "target" "default-0.1.jar")
           path     (fs/path dir jar-path)]
       (is (= {:name     'mj.test/default
               :version  "0.1"
               :dir      (str dir)
               :jar-file (str path)}
-             (targets/jar {:dir (str dir)}))
+             (tasks/jar {:dir (str dir)}))
           "runs")
 
       (is (fs/exists? path))
@@ -62,11 +62,11 @@
 
 (deftest compile-clj-test
   (testing "compile-clj compiles the sources files into target/classes"
-    (targets/clean {:dir (str dir)})
+    (tasks/clean {:dir (str dir)})
     (let [classes-path (fs/path dir "target" "classes")]
       (is (= {:dir       (str dir)
               :class-dir (str classes-path)}
-             (targets/compile-clj {:dir (str dir)}))
+             (tasks/compile-clj {:dir (str dir)}))
           "runs")
 
       (is (fs/exists? classes-path))
@@ -75,16 +75,16 @@
 
 (deftest uber-test
   (testing "compile-clj compiles the sources files into target/classes"
-    (targets/clean {:dir (str dir)})
+    (tasks/clean {:dir (str dir)})
     (let [classes-path (fs/path dir "target" "classes")
           jar-path     (fs/path "target" "default-0.1.jar")
           path         (fs/path dir jar-path)]
-      (targets/compile-clj {:dir (str dir)})
+      (tasks/compile-clj {:dir (str dir)})
       (is (= {:name     'mj.test/default
               :version  "0.1"
               :dir      (str dir)
               :jar-file (str path)}
-             (targets/uber {:dir (str dir)}))
+             (tasks/uber {:dir (str dir)}))
           "runs")
 
       (is (fs/exists? path))

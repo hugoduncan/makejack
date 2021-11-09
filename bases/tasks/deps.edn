@@ -17,9 +17,7 @@
                   :extra-deps  {}}
            :build
            {:deps
-            {makejack/build {:local/root "../../bases/build"}
-             makejack/tasks {:local/root "../../bases/tasks"}
-             }
-            :ns-default makejack.build.targets
+            {makejack/tasks {:local/root "."}}
+            :ns-default makejack.tasks
             :exec-fn    help
             :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

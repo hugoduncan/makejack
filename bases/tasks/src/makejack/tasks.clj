@@ -1,13 +1,29 @@
-(ns makejack.build.targets
-  "Build targets to build makejack itself.
+(ns makejack.tasks
+  "Makejack's tasks.
 
-  Uses a selection of makejack tasks."
+  Use this namespace directly, or use them in your own build namespace.
+
+  `require` is a helper to easily pull in multiple tasks into a
+  namespace."
   (:refer-clojure :exclude [require])
   (:require
    [clojure.string :as str]
-   [makejack.build.impl :as impl]))
+   [makejack.tasks.impl :as impl]))
 
 (defmacro require
+  "Require makejack tasks.
+
+  Inspired by `require`, but for tasks.
+
+  Takes task specs as arguments.  A tasks spec is either a task symbol,
+  or a vector, with task symbol as the first element.  The vector can
+  contain an alias, using `:as`, and a default argument map, with
+  `:default`.
+
+    (tasks/require
+       help
+       [clean :as make-it-shiny]
+       [jar :defaults {:name 'my/project :version \"0.1.0\"}])"
   [& target-specs]
   `(do
      ~@(for [spec target-specs]
@@ -20,7 +36,7 @@
   [params]
   ;; TODO: make this a function in target-doc
   ((requiring-resolve 'makejack.tasks.help/help)
-   (merge {:ns 'makejack.build.targets} params)))
+   (merge {:ns 'makejack.tasks} params)))
 
 (defn clean
   "Remove all built files"

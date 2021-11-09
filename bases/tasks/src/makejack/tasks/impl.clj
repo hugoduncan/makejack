@@ -1,5 +1,4 @@
-(ns makejack.build.impl)
-
+(ns makejack.tasks.impl)
 
 (defn add-ns-default [defaults]
   (merge {:ns (list 'quote (ns-name *ns*))} defaults))
@@ -17,7 +16,7 @@
 (defn wrap-one [spec]
   (let [{:keys [sym as defaults]} (normalise-spec spec)
         params-sym                (gensym "params")
-        target-sym                (symbol "makejack.build.targets" (name sym))
+        target-sym                (symbol "makejack.tasks" (name sym))
         v                         (resolve target-sym)
         as                        (vary-meta
                                    as merge

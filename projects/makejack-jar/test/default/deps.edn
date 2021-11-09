@@ -12,5 +12,5 @@
   {:paths      []
    :deps       {org.hugoduncan/makejack {:local/root "../../../makejack-jar"}}
    :exec-fn    help
-   :ns-default makejack.build.targets
+   :ns-default makejack.tasks
    :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

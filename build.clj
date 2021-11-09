@@ -2,9 +2,9 @@
   (:refer-clojure :exclude [test])
   (:require
    [clojure.tools.build.api :as b]
-   [makejack.build.targets :as targets]))
+   [makejack.tasks :as tasks]))
 
-(targets/require
+(tasks/require
  help)
 
 (defn ^{:params []}  build

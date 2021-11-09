@@ -5,11 +5,8 @@
   {:extra-paths ["test"]
    :extra-deps  {io.github.clojure/tools.build
                  {:git/tag "v0.6.2" :git/sha "226fb52"}}}
-  :build
-  {:deps
-   {makejack/build {:local/root "../../bases/build"}
-    makejack/tasks {:local/root "../../bases/tasks"}
-    }
-   :ns-default makejack.build.targets
-   :exec-fn    help
-   :jvm-opts   ["-Dclojure.main.report=stderr"]}}}
+  :build {:deps
+          {makejack/tasks {:local/root "../../bases/tasks"}}
+          :ns-default makejack.tasks
+          :exec-fn    help
+          :jvm-opts   ["-Dclojure.main.report=stderr"]}}}
