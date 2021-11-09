@@ -1,15 +1,16 @@
 (ns build
   (:refer-clojure :exclude [test])
   (:require
-   [clojure.tools.build.api :as b]
    [makejack.build.targets :as targets]))
-
 
 (targets/require
  help
  clean
  jar
- install)
+ install
+ changelog-init
+ changelog-release
+ tag-version)
 
 (defn ^{:params []}  build
   "Build projects"

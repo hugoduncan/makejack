@@ -3,6 +3,7 @@
   babashka/fs           {:mvn/version "0.1.0"}
   makejack/tasks        {:local/root "../../bases/tasks"}
   makejack/build        {:local/root "../../bases/build"}
+  makejack/changelog    {:local/root "../../components/changelog"}
   makejack/dag          {:local/root "../../components/dag"}
   makejack/defaults     {:local/root "../../components/defaults"}
   makejack/deps         {:local/root "../../components/deps"}

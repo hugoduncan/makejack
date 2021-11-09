@@ -4,7 +4,6 @@
    [clojure.tools.build.api :as b]
    [makejack.build.targets :as targets]))
 
-
 (targets/require
  help)
 
@@ -28,7 +27,7 @@
                   :no-propagation true})))
 
 (defn ^{:params []} cljfmt
-  "Run `cljfmt check` on workspac"
+  "Run `cljfmt check` on workspace"
   [params]
   (targets/poly-main
    (merge

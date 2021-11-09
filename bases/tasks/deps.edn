@@ -2,6 +2,7 @@
  :deps
  {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
   babashka/fs                   {:mvn/version "0.1.0"}
+  makejack/changelog            {:local/root "../../components/changelog"}
   makejack/dag                  {:local/root "../../components/dag"}
   makejack/defaults             {:local/root "../../components/defaults"}
   makejack/deps                 {:local/root "../../components/deps"}

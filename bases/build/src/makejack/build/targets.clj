@@ -78,7 +78,7 @@
     (string? spec)  (mapv keyword (str/split spec #"\."))
     :else           spec))
 
-(defn normalise-aliases [params]
+(defn- normalise-aliases [params]
   (cond-> params
     (:aliases params)
     (update :aliases aliases-spec-to-aliases)))
@@ -132,3 +132,15 @@
   [params]
   ((requiring-resolve 'makejack.tasks.poly-clj-cli/poly-tool)
    (normalise-aliases params)))
+
+(defn changelog-init
+  "Intialise a changelog"
+  [params]
+  ((requiring-resolve 'makejack.tasks.changelog/init)
+   params))
+
+(defn changelog-release
+  "Update the changelog for a release."
+  [params]
+  ((requiring-resolve 'makejack.tasks.changelog/release)
+   params))
