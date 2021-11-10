@@ -20,12 +20,12 @@
                   (fn [info-map dep-ns]
                     (update info-map :ns-dag dag/add-edge p-ns dep-ns))
                   info-map
-                  (:requires info))
+                  (:require info))
         info-map (reduce
                   (fn [info-map dep-ns]
                     (update info-map :ns-dag dag/add-edge p-ns dep-ns))
                   info-map
-                  (:imports info))]
+                  (:import info))]
     info-map))
 
 (defn add-files
@@ -61,6 +61,10 @@
   [info-map paths]
 
   )
+
+
+(defn files-in-dir [path]
+  (filterv fs/regular-file? (fs/glob path "**")))
 
 (defn add-path-info
   [info-map path]

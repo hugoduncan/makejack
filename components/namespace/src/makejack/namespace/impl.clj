@@ -1,4 +1,4 @@
-(ns makejack.file-info.namespace-deps
+(ns makejack.namespace.impl
   (:refer-clojure :exclude [ns-imports])
   (:require
    [babashka.fs :as fs]
@@ -38,11 +38,10 @@
                         (fs/file (fs/path path))))]
      (read-namespace-declaration reader (read-features features)))))
 
-
 (defn declared-ns [form]
   (second form))
 
-(defn join-ns [prefix]
+(defn join-import [prefix]
   (let [p (str prefix ".")]
     (fn [s]
       (symbol (str p s)))))
@@ -52,28 +51,37 @@
    (fn [res i]
      (cond
        (symbol? i)     (conj res i)
-       (sequential? i) (into res (map (join-ns (first i)) (rest i)))
+       (sequential? i) (into res (map (join-import (first i)) (rest i)))
        :else           res))
-   []
+   #{}
    imports))
+
+(defn join-ns [prefix]
+  (let [p (str prefix ".")]
+    (fn [m]
+      (assert map? m)
+      (update m :namespace #(symbol (str p %))))))
 
 (defn normalise-require [req]
   (cond
-    (symbol? req)                 req
-    (and (sequential? req)
-         (keyword? (second req))) (first req)
-    (sequential? req)             (mapv
-                                   (join-ns (first req))
-                                   (mapv normalise-require (rest req)))))
+    (symbol? req)
+    {:namespace req}
+
+    (and (sequential? req) (keyword? (second req)))
+    (assoc (apply hash-map (rest req))
+           :namespace (first req))
+
+    (sequential? req)
+    (mapv (join-ns (first req)) (mapv normalise-require (rest req)))))
 
 (defn ns-requires [requires]
   (reduce
    (fn [res i]
      (let [r (normalise-require i)]
-       (if (symbol? r)
+       (if (map? r)
          (conj res r)
          (into res r))))
-   []
+   #{}
    requires))
 
 (defmulti clause-info
@@ -86,13 +94,14 @@
 
 (defmethod clause-info :import
   [clause]
-  {:imports (set (ns-imports (rest clause)))})
+  {:import (ns-imports (rest clause))})
 
 (defmethod clause-info :require
   [clause]
-  {:requires (set (ns-requires (rest clause)))})
+  {:require (ns-requires (rest clause))})
 
-(defn parse-form [form]
+(defn parse
+  [form]
   (reduce
    (fn [res clause]
      (merge res (clause-info clause)))
@@ -102,4 +111,6 @@
 (defn dependencies
   ([path] (dependencies path #{:clj}))
   ([path features]
-   (parse-form (ns-form path features))))
+   (-> path
+       (ns-form features)
+       parse)))

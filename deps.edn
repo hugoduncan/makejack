@@ -18,6 +18,7 @@
     makejack/filesystem          {:local/root "components/filesystem"}
     makejack/git                 {:local/root "components/git"}
     makejack/jarfile             {:local/root "components/jarfile"}
+    bmakejack/namepsace          {:local/root "components/namespace"}
     makejack/poly                {:local/root "components/poly"}
     makejack/project-data        {:local/root "components/project-data"}
     makejack/target-doc          {:local/root "components/target-doc"}
@@ -33,11 +34,12 @@
                        "components/file-changed/test"
                        "components/file-hash/test"
                        "components/file-info/test"
-                       "components/file-info/test-resources"
                        "components/files/test"
                        "components/filesystem/test"
                        "components/git/test"
                        "components/jarfile/test"
+                       "components/namespace/test"
+                       "components/namespace/test-resources"
                        "components/poly/test"
                        "components/project-data/test"
                        "components/target-doc/test"
