@@ -4,8 +4,8 @@
 
 Build and maintain your clojure projects.
 
-Makejack is a clojure CLI tool for building clojure projects, and a
-library for writing you own build tasks.
+Makejack is a clojure CLI tool, and a library for writing you own build
+tasks.
 
 Start your project using the built in tasks, and as your needs grow,
 easily customise the tasks to make them your own.
