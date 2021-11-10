@@ -2,9 +2,14 @@
  :deps
  {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
   rewrite-clj/rewrite-clj       {:mvn/version "1.0.699-alpha"}
-  makejack/filesystem           {:local/root "../filesystem"}
-  makejack/paths                {:local/root "../path"}}
+  babashka/fs                   {:mvn/version "0.1.0"}}
  :aliases {:test {:extra-paths ["test"]
                   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
                   :exec-fn     kaocha.runner/exec-fn
-                  :exec-args   {}}}}
+                  :exec-args   {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "../../bases/tasks"}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

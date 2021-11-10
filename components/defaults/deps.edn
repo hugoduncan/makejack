@@ -1,11 +1,15 @@
 {:paths   ["src"]
  :deps    {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
-           makejack/filesystem           {:local/root "../filesystem"}
-           makejack/path                 {:local/root "../path"}
-           makejack/project-data         {:local/root "../project-data"}
-           makejack/poly                 {:local/root "../poly"}}
+           babashka/fs                   {:mvn/version "0.1.0"}
+           makejack/project-data         {:local/root "../project-data"}}
  :aliases {:test
            {:extra-paths ["test"]
             :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
             :exec-fn     kaocha.runner/exec-fn
-            :exec-args   {}}}}
+            :exec-args   {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "../../bases/tasks"}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

@@ -1,9 +1,9 @@
 (ns makejack.project-data.api-test
   (:require
+   [babashka.fs :as fs]
    [clojure.edn :as edn]
    [clojure.test :refer [deftest is testing]]
-   [makejack.filesystem.api :as fs]
-   [makejack.path.api :as path]
+   [makejack.filesystem.api :as filesystem]
    [makejack.project-data.api :as project-data]
    [makejack.project-data.impl :as impl]))
 
@@ -33,8 +33,8 @@
 
 (deftest read-project-test
   (testing "read"
-    (fs/with-temp-dir [dir "load-project-test"]
-      (let [f (path/as-file (path/path dir "project.edn"))]
+    (filesystem/with-temp-dir [dir "load-project-test"]
+      (let [f (fs/file (fs/path dir "project.edn"))]
         (testing "throws with no :version project data"
           (spit f (pr-str {:name 'me/abcd}))
           (is (thrown-with-msg?
@@ -62,25 +62,25 @@
 
 (deftest write-project-test
   (testing "write"
-    (fs/with-temp-dir [dir "load-project-test"]
+    (filesystem/with-temp-dir [dir "load-project-test"]
       (testing "saves project data with no existing project.edn file"
         (let [project-data {:name 'me/z :version "0.0.1"}]
           (project-data/write (assoc project-data :dir dir))
           (is (= project-data
-                 (-> (path/path dir "project.edn")
-                     path/as-file
+                 (-> (fs/path dir "project.edn")
+                     fs/file
                      slurp
                      edn/read-string)))
           (is (= project-data (project-data/read {:dir dir})))))
       (testing "updates project data tn an existing project.edn file"
         (let [project-data {:name 'me/abcd :version "0.0.0"}]
           (spit
-           (path/as-file (path/path dir "project.edn"))
+           (fs/file (fs/path dir "project.edn"))
            (pr-str project-data))
           (project-data/write (assoc project-data :dir dir))
           (is (= project-data
-                 (-> (path/path dir "project.edn")
-                     path/as-file
+                 (-> (fs/path dir "project.edn")
+                     fs/file
                      slurp
                      edn/read-string))
               "wrote :version")

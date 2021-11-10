@@ -1,7 +1,6 @@
 (ns makejack.target-doc.api
   "Provide documentation on namespace public functions"
   (:require
-   [clojure.pprint :as pprint]
    [clojure.string :as str]))
 
 
@@ -63,7 +62,7 @@
 
 (defn params-str [{:keys [arglists params]}]
   (or
-   params
+   (if (= params []) "" params)
    (let [arglist (first arglists)]
      (when-let [arg (first arglist)]
        (if-let [kws (and (map? arg) (:keys arg))]
@@ -96,9 +95,9 @@
 
   Use ^:params to provide a one line description of the parameters.
   supported."
-  [{:keys [target]} ns-ref]
+  [{:keys [target ns]}]
   ;; TODO: make this a function in target-doc
-  (let [ns-doc (ns-doc ns-ref)]
+  (let [ns-doc (ns-doc ns)]
     (if target
       (if-let [fn-doc (fn-doc ns-doc target)]
         (fn-help fn-doc)

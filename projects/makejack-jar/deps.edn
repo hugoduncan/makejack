@@ -1,27 +1,32 @@
 {:deps
  {org.clojure/clojure   {:mvn/version "1.10.3"}
+  babashka/fs           {:mvn/version "0.1.0"}
   makejack/tasks        {:local/root "../../bases/tasks"}
+  makejack/changelog    {:local/root "../../components/changelog"}
+  makejack/dag          {:local/root "../../components/dag"}
   makejack/defaults     {:local/root "../../components/defaults"}
+  makejack/deps         {:local/root "../../components/deps"}
   makejack/file-changed {:local/root "../../components/file-changed"}
+  makejack/file-hash    {:local/root "../../components/file-hash"}
+  makejack/file-info    {:local/root "../../components/file-info"}
+  makejack/files        {:local/root "../../components/files"}
   makejack/filesystem   {:local/root "../../components/filesystem"}
   makejack/git          {:local/root "../../components/git"}
-  makejack/paths        {:local/root "../../components/path"}
+  makejack/jarfile      {:local/root "../../components/jarfile"}
   makejack/poly         {:local/root "../../components/poly"}
   makejack/project-data {:local/root "../../components/project-data"}
   makejack/target-doc   {:local/root "../../components/target-doc"}
   makejack/verbose      {:local/root "../../components/verbose"}}
 
 
- :tools/usage {:ns-default makejack.tasks.core}
+ :tools/usage {:ns-default makejack.tasks}
 
  :aliases
  {:test {:extra-paths []
          :extra-deps  {}}
   :build
   {:deps
-   {makejack/build {:local/root "../../bases/build"}
-    makejack/tasks {:local/root "../../bases/tasks"}}
-   :paths      []
-   :ns-default makejack.build.targets
+   {makejack/tasks {:local/root "../../bases/tasks"}}
+   :ns-default build
    :jvm-opts   ["-Dclojure.main.report=stderr"]
    }}}

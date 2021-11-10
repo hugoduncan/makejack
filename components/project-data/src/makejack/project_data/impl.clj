@@ -1,10 +1,9 @@
 (ns makejack.project-data.impl
   (:require
+   [babashka.fs :as fs]
    [clojure.edn :as edn]
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
-   [makejack.filesystem.api :as fs]
-   [makejack.path.api :as path]
    [rewrite-clj.zip :as z]))
 
 ;;; version <-> version-map
@@ -46,10 +45,12 @@
 (defmethod expand-component :git-rev-count
   [_component] (edn/read-string (b/git-count-revs nil)))
 
-(def reverse-date-fmt (java.text.SimpleDateFormat. "yyyy.MM.dd"))
+(def ^:private formatter
+  (java.time.format.DateTimeFormatter/ofPattern "YYYY.MM.dd"))
 
 (defmethod expand-component :reverse-date
-  [_component] (.format reverse-date-fmt (java.util.Date.)))
+  [_component]
+  (.format formatter (java.time.LocalDate/now)))
 
 (defn expand-version-map
   [version-map]
@@ -70,7 +71,7 @@
 
 (defn project-edn-path
   ^java.nio.file.Path [{:keys [dir]}]
-  (path/path (or dir ".") "project.edn"))
+  (fs/path (or dir ".") "project.edn"))
 
 (def template-project-edn "{:name noname\n :version \"\"}")
 
@@ -84,7 +85,7 @@
 
 (defn load-project
   [params]
-  (let [f (-> params project-edn-path path/as-file)]
+  (let [f (-> params project-edn-path fs/file)]
     (-> f
         slurp
         edn/read-string
@@ -104,8 +105,8 @@
 (defn write-project
   [{:keys [name version] :as params}]
   {:pre [name version]}
-  (let [f     (-> params project-edn-path path/as-file)
-        src   (if (fs/file? f)
+  (let [f     (-> params project-edn-path fs/file)
+        src   (if (fs/regular-file? f)
                 (slurp f)
                 template-project-edn)
         new-s (update-version params src)]

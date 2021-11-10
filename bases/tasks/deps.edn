@@ -1,14 +1,23 @@
 {:paths   ["src"]
  :deps
  {io.github.clojure/tools.build {:git/tag "v0.6.2" :git/sha "226fb52"}
+  babashka/fs                   {:mvn/version "0.1.0"}
+  makejack/changelog            {:local/root "../../components/changelog"}
+  makejack/dag                  {:local/root "../../components/dag"}
   makejack/defaults             {:local/root "../../components/defaults"}
+  makejack/deps                 {:local/root "../../components/deps"}
   makejack/file-changed         {:local/root "../../components/file-changed"}
-  makejack/filesystem           {:local/root "../../components/filesystem"}
+  makejack/files                {:local/root "../../components/files"}
   makejack/git                  {:local/root "../../components/git"}
-  makejack/paths                {:local/root "../../components/path"}
   makejack/poly                 {:local/root "../../components/poly"}
   makejack/project-data         {:local/root "../../components/project-data"}
   makejack/target-doc           {:local/root "../../components/target-doc"}
   makejack/verbose              {:local/root "../../components/verbose"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {}}}}
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "."}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

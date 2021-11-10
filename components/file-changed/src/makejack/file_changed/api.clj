@@ -2,22 +2,21 @@
   "Track file changes by hash.
   Hashes are checked if the file modification time changes."
   (:require
+   [babashka.fs :as fs]
    [clojure.edn :as edn]
    [clojure.set :as set]
-   [makejack.file-changed.impl :as impl]
-   [makejack.filesystem.api :as fs]
-   [makejack.path.api :as path]))
+   [makejack.file-changed.impl :as impl]))
 
 (defn load-file-info
   "Load a file info map from a path."
   [{:keys [file-path]}]
-  (when (fs/file-exists? file-path)
-    (edn/read-string (slurp (path/as-file file-path)))))
+  (when (fs/exists? file-path)
+    (edn/read-string (slurp (fs/file file-path)))))
 
 (defn save-file-info
   "Save a file info map from a path."
   [{:keys [file-path]} file-info]
-  (spit (path/as-file file-path) (pr-str file-info)))
+  (spit (fs/file file-path) (pr-str file-info)))
 
 (defn changed-files
   "Return a file-info map a list of changed and removed paths.

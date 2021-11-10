@@ -1,0 +1,4 @@
+{:paths   ["src"]
+ :deps    {ageneau/keepachangelog {:mvn/version "0.1.0"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps  {}}}}

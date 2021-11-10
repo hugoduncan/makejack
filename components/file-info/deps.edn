@@ -1,0 +1,10 @@
+{:paths   ["src"]
+ :deps    {org.clojure/tools.reader {:mvn/version "1.3.6"}}
+ :aliases {:test {:extra-paths ["test" "test-resources"]
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "../../bases/tasks"}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

@@ -1,19 +1,18 @@
 (ns makejack.defaults.impl
   (:require
+   [babashka.fs :as fs]
    [clojure.tools.build.api :as b]
-   [makejack.path.api :as path]
-   [makejack.poly.api :as poly]
    [makejack.project-data.api :as project-data]))
 
 (defn target-path
   "Return the target directory."
   [params]
-  (:target params "target"))
+  (:target params (str (fs/path (:dir params ".") "target"))))
 
 (defn classes-path
   "Return the classes directory."
   [params]
-  (str (path/path (target-path params) (:classes-dir params "classes"))))
+  (str (fs/path (target-path params) (:classes-dir params "classes"))))
 
 
 (defn project-data
@@ -29,8 +28,11 @@
   "Return the project basis
   :mvn/local dependencies are converted to use source paths."
   [params]
-  (-> (b/create-basis (select-keys params [:project]))
-      poly/lift-local-deps))
+  (let [aliases (:aliases params)]
+    (binding [b/*project-root* (:dir params ".")]
+      (-> (b/create-basis (select-keys
+                           params
+                           [:aliases :project :root :user :extra]))))))
 
 (defn paths
   "Return the basis :paths"

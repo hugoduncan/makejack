@@ -1,16 +1,23 @@
-{:paths    []
+{:paths      []
+ :java-paths ["java"]
+
  :jvm-opts ["-Dclojure.main.report=stderr"]
  :aliases
  {:dev
   {:extra-paths ["development/src"]
    :extra-deps
-   {makejack/build               {:local/root "bases/build"}
-    makejack/tasks               {:local/root "bases/tasks"}
+   {makejack/tasks               {:local/root "bases/tasks"}
+    makejack/changelog           {:local/root "components/changelog"}
+    makejack/dag                 {:local/root "components/dag"}
     makejack/defaults            {:local/root "components/defaults"}
+    makejack/deps                {:local/root "components/deps"}
     makejack/file-changed        {:local/root "components/file-changed"}
+    makejack/file-hash           {:local/root "components/file-hash"}
+    makejack/file-info           {:local/root "components/file-info"}
+    makejack/files               {:local/root "components/files"}
     makejack/filesystem          {:local/root "components/filesystem"}
     makejack/git                 {:local/root "components/git"}
-    makejack/paths               {:local/root "components/path"}
+    makejack/jarfile             {:local/root "components/jarfile"}
     makejack/poly                {:local/root "components/poly"}
     makejack/project-data        {:local/root "components/project-data"}
     makejack/target-doc          {:local/root "components/target-doc"}
@@ -20,10 +27,25 @@
     rewrite-clj/rewrite-clj      {:mvn/version "1.0.699-alpha"}}
    :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
 
-  :test {:extra-paths ["test"]
+  :test {:extra-paths ["components/dag/test"
+                       "components/defaults/test"
+                       "components/deps/test"
+                       "components/file-changed/test"
+                       "components/file-hash/test"
+                       "components/file-info/test"
+                       "components/file-info/test-resources"
+                       "components/files/test"
+                       "components/filesystem/test"
+                       "components/git/test"
+                       "components/jarfile/test"
+                       "components/poly/test"
+                       "components/project-data/test"
+                       "components/target-doc/test"
+                       "components/verbose/test"]
          :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
          :exec-fn     kaocha.runner/exec-fn
-         :exec-args   {}}
+         :exec-args   {}
+         :jvm-opts    ["-Dclojure.main.report=stderr"]}
 
   :coverage {:extra-deps {cloverage/cloverage {:mvn/version "RELEASE"}}
              :exec-fn    cloverage.coverage/run-project
@@ -36,4 +58,14 @@
          :extra-deps {polyfy/polylith
                       {:git/url   "https://github.com/polyfy/polylith"
                        :sha       "57e0217762c166a92b007736c198d100642e22c1"
-                       :deps/root "projects/poly"}}}}}
+                       :deps/root "projects/poly"}}}
+
+  :build
+  {:deps
+   {makejack/tasks {:local/root "bases/tasks"}}
+   :ns-default build
+   :exec-fn    help
+   :jvm-opts   ["-Dclojure.main.report=stderr"]}
+
+  :cljfmt {:deps      {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+           :main-opts ["-m" "cljfmt.main" "check"]}}}

@@ -1,4 +1,13 @@
 {:paths   ["src"]
- :deps    {}
+ :deps    {polylith/clj-api
+           {:git/url   "https://github.com/polyfy/polylith.git"
+            :sha       "57e0217762c166a92b007736c198d100642e22c1"
+            :deps/root "projects/api"}}
  :aliases {:test {:extra-paths ["test"]
-                  :extra-deps  {}}}}
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "../../bases/tasks"}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}

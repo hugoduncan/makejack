@@ -1,0 +1,13 @@
+{:paths   ["src"]
+ :deps    {makejack/dag       {:local/root "../../components/dag"}
+           makejack/file-hash {:local/root "../../components/file-hash"}
+           makejack/file-info {:local/root "../../components/file-info"}
+           babashka/fs        {:mvn/version "0.1.0"}}
+ :aliases {:test {:extra-paths ["test"]
+                  :extra-deps  {}}
+           :build
+           {:deps
+            {makejack/tasks {:local/root "../../bases/tasks"}}
+            :ns-default makejack.tasks
+            :exec-fn    help
+            :jvm-opts   ["-Dclojure.main.report=stderr"]}}}
