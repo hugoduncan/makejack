@@ -21,7 +21,8 @@
         as                        (vary-meta
                                    as merge
                                    (dissoc (meta v)
-                                           :ns :name :file :column :line))]
+                                           :ns :name :file :column :line
+                                           :arglists))]
     `(defn ~as [~params-sym]
        (~target-sym
         ~(if defaults

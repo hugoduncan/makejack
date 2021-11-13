@@ -10,7 +10,7 @@
 (defn ^{:params []}  build
   "Build projects"
   [params]
-  (targets/poly-tool
+  (tasks/poly-tool
    (merge params {:aliases        [:build]
                   :exec-fn        'build
                   :exec-args      {}
@@ -20,7 +20,7 @@
 (defn ^{:params []} clean
   "Clean projects"
   [params]
-  (targets/poly-tool
+  (tasks/poly-tool
    (merge params {:aliases        [:build]
                   :exec-fn        'clean
                   :exec-args      {}
@@ -29,7 +29,7 @@
 (defn ^{:params []} cljfmt
   "Run `cljfmt check` on workspace"
   [params]
-  (targets/poly-main
+  (tasks/poly-main
    (merge
     (select-keys params [:verbose])
     {:aliases [:cljfmt] :args ["check"]})))
@@ -39,7 +39,7 @@
   [params]
   (merge
    (select-keys params [:verbose])
-   (targets/poly-main {:aliases [:cljfmt] :args ["check"]})))
+   (tasks/poly-main {:aliases [:cljfmt] :args ["check"]})))
 
 (defn ^{:params []} test
   "Run `poly test` on workspace.
