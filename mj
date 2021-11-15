@@ -41,6 +41,11 @@
   (-> (clojure.edn/read-string (slurp path))
       second))
 
+(defn read-or-identity [x]
+  (try (edn/read-string x)
+       (catch Exception _
+         x)))
+
 (defn parse-opts []
   (let [args             *command-line-args*
         [args task-file] (cond
@@ -63,7 +68,7 @@
      :f         (or (first args) "help")
      :args      (into {} (->> args
                               rest
-                              (mapv edn/read-string)
+                              (mapv read-or-identity)
                               (partition 2)
                               (mapv vec)))}))
 
