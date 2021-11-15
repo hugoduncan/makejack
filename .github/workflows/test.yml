@@ -31,13 +31,15 @@ jobs:
 
     - name: poly check
       run: |
+        set -x
         clojure -M:poly check
 
     - name: poly test :all
       run: |
+        set -x
         clojure -M:poly test :all
 
-    - name: build and insrall jar
+    - name: build and install jar
       run: |
         set -x
         cd projects/makejack-jar
