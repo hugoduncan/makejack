@@ -1,0 +1,77 @@
+#!/usr/bin/env bb
+
+;; Standalone script for running makejack.
+
+;; By default, uses makejack's built in tasks.
+
+;; To use tasks from a different namespace,
+;; pass `--tasks <path-to-ns-defining-file>`.
+
+
+(require '[babashka.fs :as fs])
+(require '[babashka.deps :as deps])
+(require '[babashka.pods :as pods])
+
+(pods/load-pod "tools-deps-native")
+
+(deps/add-deps
+ '{:deps
+   {borkdude/spartan.spec
+    {:git/url "https://github.com/borkdude/spartan.spec"
+     :sha     "12947185b4f8b8ff8ee3bc0f19c98dbde54d4c90"}}})
+
+(require 'spartan.spec)
+
+(deps/add-deps '{:deps
+                 {io.github.clojure/tools.build
+                  {:git/url "https://github.com/babashka/tools.bbuild"
+                   :git/sha "af73f5a1ffe209291aa80215495a7959e1032d39"}}})
+
+(require 'clojure.tools.build.api)
+(require 'clojure.tools.deps.alpha)
+
+(deps/add-deps
+ '{:deps {io.github.hugoduncan/makejack
+          #_ {:local/root "projects/makejack-jar"}
+          {:git/sha    "abeb4d4cb0266aa03ee164b49edd148ee20958af"
+           :deps/root  "projects/makejack-jar"
+           :exclusions [io.github.clojure/tools.build]}}})
+
+(defn parse-namespace [path]
+  (-> (clojure.edn/read-string (slurp path))
+      second))
+
+(defn parse-opts []
+  (let [args             *command-line-args*
+        [args task-file] (cond
+                           (= "--tasks" (first args))
+                           [(drop 2 args) (second args)]
+
+                           (fs/exists? "build.clj")
+                           [args "build.clj"]
+
+                           :else
+                           [args nil])
+        ns-str (if task-file
+                 (or (some->
+                      (parse-namespace task-file)
+                      str)
+                     (assert false "Task file must contain a ns form"))
+                 "makejack.tasks")]
+    {:task-file task-file
+     :ns-str    ns-str
+     :f         (or (first args) "help")
+     :args      (into {} (->> args
+                              rest
+                              (mapv edn/read-string)
+                              (partition 2)
+                              (mapv vec)))}))
+
+
+(let [{:keys [task-file ns-str f args]} (parse-opts)]
+  (if task-file
+    (load-file task-file)
+    (require 'makejack.tasks))
+  ((resolve (symbol ns-str f)) args))
+
+nil
