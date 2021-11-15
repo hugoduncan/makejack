@@ -1,12 +1,9 @@
 (ns makejack.file-info.api
   "Info on a source file"
-  #_(:require
-     [makejack.file-info.impl :as impl]))
-
-(defn dependencies
-  [path]
-  ((requiring-resolve 'makejack.file-info.impl/dependencies) path))
+  (:require
+   [makejack.file-info.impl :as impl]))
 
 (defn file-info
+  "Return a map of file-changed time, hash and dependencies."
   [path]
-  ((requiring-resolve 'makejack.file-info.impl/file-info) path))
+  (impl/file-info path))

@@ -1,9 +1,12 @@
 (ns makejack.files.api
-  "Info on all files.
-  "
+  "Info on all files."
   (:require
    [makejack.files.impl :as impl]))
 
+(defn files-in-dir
+  "Return all file paths under the given root path."
+  [path]
+  (impl/files-in-dir path))
 
 (defn info-map
   "Return a new file info map."

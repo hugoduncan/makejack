@@ -10,7 +10,7 @@
    [clojure.string :as str]
    [makejack.tasks.impl :as impl]))
 
-(defmacro require
+(defmacro ^:no-doc require
   "Require makejack tasks.
 
   Inspired by `require`, but for tasks.
