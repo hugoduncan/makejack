@@ -39,6 +39,7 @@ jobs:
 
     - name: build and insrall jar
       run: |
+        set -x
         cd projects/makejack-jar
         clojure -T:build help | grep clean
         clojure -T:build help :target clean | grep clean
