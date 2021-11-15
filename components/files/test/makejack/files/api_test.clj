@@ -17,7 +17,7 @@
                {:dir dir}
                [(fs/path "src")])]
     (is infos)
-    (is (= '[makejack.files.impl makejack.files.api]
-           (files/top-level-nses infos)))
-    (is (= '[makejack.files.impl makejack.files.api]
-           (files/topo-namespaces infos)))))
+    (is (= (set '[makejack.files.impl makejack.files.api])
+           (set (files/top-level-nses infos))))
+    (is (= (set '[makejack.files.impl makejack.files.api])
+           (set (files/topo-namespaces infos))))))
