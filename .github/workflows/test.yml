@@ -47,4 +47,6 @@ jobs:
         clojure -T:build help :target clean | grep clean
         clojure -T:build clean
         clojure -T:build jar
+        # not sure why this is needed
+        rm -rf /Users/runner/.gitlibs/_repos/https/github.com/clojure/tools.build
         clojure -T:build install
