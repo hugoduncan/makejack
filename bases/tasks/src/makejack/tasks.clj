@@ -38,6 +38,12 @@
   ((requiring-resolve 'makejack.tasks.help/help)
    (merge {:ns 'makejack.tasks} params)))
 
+(defn project-data
+  "Read and expand project data"
+  [params]
+  ((requiring-resolve 'makejack.tasks.project-data/project-data)
+   params))
+
 (defn clean
   "Remove all built files"
   [params]

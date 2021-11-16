@@ -13,7 +13,7 @@
   makejack/project-data         {:local/root "../../components/project-data"}
   makejack/target-doc           {:local/root "../../components/target-doc"}
   makejack/verbose              {:local/root "../../components/verbose"}}
- :aliases {:test {:extra-paths ["test"]
+ :aliases {:test {:extra-paths ["test" "test-resources"]
                   :extra-deps  {}}
            :build
            {:deps
