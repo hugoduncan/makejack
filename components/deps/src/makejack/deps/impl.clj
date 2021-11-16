@@ -6,32 +6,41 @@
   [basis]
   ;; NOTE this could be simpler if we constructed a new deps map and used
   ;; b/create-basis, but that complains about non-local source paths.
-  (let [libs            (:libs basis)
-        local-root      #(:local/root (get libs %))
-        transitive-deps (reduce-kv
-                         (fn [deps lib {:keys [dependents] :as coords}]
-                           (let [version (:mvn/version coords)]
-                             (if (and version (some local-root dependents))
-                               (assoc deps lib {:mvn/version version})
-                               deps)))
-                         {}
-                         libs)
-        local-paths     (reduce-kv
-                         (fn [ps _lib {:keys [dependents paths] :as coords}]
-                           (if (and (:local/root coords)
-                                    (or (empty? dependents)
-                                        (some local-root dependents)))
-                             (into ps paths)
-                             ps))
-                         []
-                         libs)
-        transitive-libs (reduce-kv
-                         (fn [deps lib coords]
-                           (if (transitive-deps lib)
-                             (assoc deps lib (assoc coords :dependents []))
-                             deps))
-                         {}
-                         libs)]
+  (let [libs             (:libs basis)
+        local-root       #(:local/root (get libs %))
+        transitive-local (fn transitive-local
+                           ;; Predicate for lib being a transitive dependency
+                           ;; of a direct project dependency.
+                           [lib]
+                           (or (and (local-root lib)
+                                    (empty? (:dependents (libs lib))))
+                               (some
+                                transitive-local
+                                (:dependents (libs lib)))))
+        transitive-deps  (reduce-kv
+                          (fn [deps lib {:keys [dependents] :as coords}]
+                            (let [version (:mvn/version coords)]
+                              (if (and version (some local-root dependents))
+                                (assoc deps lib {:mvn/version version})
+                                deps)))
+                          {}
+                          libs)
+        local-paths      (reduce-kv
+                          (fn [ps _lib {:keys [dependents paths] :as coords}]
+                            (if (and (:local/root coords)
+                                     (or (empty? dependents)
+                                         (some transitive-local dependents)))
+                              (into ps paths)
+                              ps))
+                          []
+                          libs)
+        transitive-libs  (reduce-kv
+                          (fn [deps lib coords]
+                            (if (transitive-deps lib)
+                              (assoc deps lib (assoc coords :dependents []))
+                              deps))
+                          {}
+                          libs)]
     (-> basis
         (update :libs #(into {} (remove (comp :local/root val)) %))
         (update :libs merge transitive-libs)
