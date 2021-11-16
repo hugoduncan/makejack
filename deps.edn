@@ -28,7 +28,9 @@
     rewrite-clj/rewrite-clj      {:mvn/version "1.0.699-alpha"}}
    :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]}
 
-  :test {:extra-paths ["components/dag/test"
+  :test {:extra-paths ["bases/tasks/test"
+                       "bases/tasks/test-resources"
+                       "components/dag/test"
                        "components/defaults/test"
                        "components/deps/test"
                        "components/file-changed/test"
@@ -58,6 +60,7 @@
 
   :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
          :extra-deps {polyfy/polylith
+                      #_ {:local/root "../../../src/polylith/projects/poly"}
                       {:git/url   "https://github.com/polyfy/polylith"
                        :sha       "57e0217762c166a92b007736c198d100642e22c1"
                        :deps/root "projects/poly"}}}

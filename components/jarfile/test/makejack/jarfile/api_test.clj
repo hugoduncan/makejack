@@ -14,8 +14,6 @@
           "components"
           "jarfile"))
 
-(prn :dir dir)
-
 (deftest paths-test
   (let [jar-path (fs/path dir "target" "jarfile.jar")]
     (prn :jar-parh)
