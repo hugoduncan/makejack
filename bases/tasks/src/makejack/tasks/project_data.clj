@@ -15,14 +15,14 @@
 (defn write-version
   "Write the current project version to project.edn."
   [params]
-  (v/println "Writing version to project data")
+  (v/println "Writing version to project data" (:version params))
   (project-data/write params))
 
 (defn write-version-file
   "Write the current project version to a file with an edn map.
   By default writes to version.edn."
   [params]
-  (v/println "Writing version file")
+  (v/println "Writing version file" (:version params))
   (project-data/write-version-file params))
 
 (defn read-version-file
