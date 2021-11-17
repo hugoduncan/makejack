@@ -9,18 +9,20 @@
 (defn install
   "install jar to local maven repository."
   [params]
-  (v/println params "Install jar...")
   (let [params    (defaults/project-data params)
         params    (project-data/expand-version params)
         jar-path  (fs/path
                    (defaults/target-path params)
                    (defaults/jar-filename params))
         basis     (or (:basis params) (defaults/basis params))
-        class-dir (str (defaults/classes-path params))]
+        class-dir (str (defaults/classes-path params))
+        proj-name (:name params)
+        version   (:version params)]
+    (v/println params "Install jar" (str jar-path) "for" proj-name version)
     (b/install
      {:basis     basis
       :class-dir class-dir
       :jar-file  (str jar-path)
-      :lib       (:name params)
-      :version   (:version params)})
+      :lib       proj-name
+      :version   version})
     params))

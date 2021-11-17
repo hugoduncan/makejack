@@ -10,7 +10,6 @@
 (defn jar
   "Build a jar file"
   [params]
-  (v/println params "Build jar...")
   (binding [b/*project-root* (:dir params ".")]
     (let [params    (defaults/project-data params)
           params    (project-data/expand-version params)
@@ -22,6 +21,7 @@
           src-dirs  (defaults/paths basis)
           class-dir (str (defaults/classes-path params))
           relative? (complement fs/absolute?)]
+      (v/println params "Build jar" (str jar-path))
       (binding [b/*project-root* (:dir params ".")]
         (b/write-pom {:basis     (update basis :paths
                                          #(filterv relative? %))
