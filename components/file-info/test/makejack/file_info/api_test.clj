@@ -4,8 +4,8 @@
    [clojure.test :refer [deftest is testing]]
    [makejack.file-info.api :as file-info])
   (:import
+   ;; Used for the test results
    [java.io File]))
-
 
 (deftest file-info-test
   (testing "file-info"

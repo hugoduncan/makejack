@@ -15,9 +15,9 @@
 (defn read-namespace-declaration
   "Read a namespace declaration.
   Return the namespace declaration form, or nil if not found."
-  [io-reader tools-reader-opts]
+  [io-reader reader-opts]
   (loop []
-    (let [options (assoc {:features tools-reader-opts} :eof ::eof)
+    (let [options (assoc reader-opts :eof ::eof)
           form    (read options io-reader)]
       (cond
         (= ::eof form)                nil
