@@ -38,3 +38,13 @@
   {:arglists '[[{:keys [dir version version-map]}]]}
   [options]
   (impl/write-project options))
+
+(defn write-version-file
+  "Write the project version to :path, defaulting to \"version.edn\""
+  [params]
+  (impl/write-version-file params))
+
+(defn read-version-file
+  "Read the project version from :path, defaulting to \"version.edn\""
+  [params]
+  (impl/read-version-file params))
