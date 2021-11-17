@@ -2,9 +2,9 @@
   (:refer-clojure :exclude [ns-imports])
   (:require
    [babashka.fs :as fs]
-   [clojure.java.io :as io]
-   [clojure.tools.reader :as reader])
+   [clojure.java.io :as io])
   (:import
+   [clojure.lang LineNumberingPushbackReader]
    [java.io PushbackReader]))
 
 (defn namespace-declaration?
@@ -15,17 +15,17 @@
 (defn read-namespace-declaration
   "Read a namespace declaration.
   Return the namespace declaration form, or nil if not found."
-  [io-reader tools-reader-opts]
+  [io-reader reader-opts]
   (loop []
-    (let [options (assoc tools-reader-opts :eof ::eof)
-          form    (reader/read options io-reader)]
+    (let [options (assoc reader-opts :eof ::eof)
+          form    (read options io-reader)]
       (cond
         (= ::eof form)                nil
         (namespace-declaration? form) form
         :else                         (recur)))))
 
 (defn read-features
-  "tools.reader/read options to read conditionals with the :clj feature."
+  "read options to read conditionals with the :clj feature."
   [features]
   {:read-cond :allow
    :features  (set features)})
@@ -33,9 +33,10 @@
 (defn ns-form
   ([path] (ns-form path #{:clj}))
   ([path features]
-   (with-open [reader (PushbackReader.
-                       (io/reader
-                        (fs/file (fs/path path))))]
+   (with-open [reader (LineNumberingPushbackReader.
+                       (PushbackReader.
+                        (io/reader
+                         (fs/file (fs/path path)))))]
      (read-namespace-declaration reader (read-features features)))))
 
 (defn declared-ns [form]
