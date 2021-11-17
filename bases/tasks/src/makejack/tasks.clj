@@ -44,6 +44,26 @@
   ((requiring-resolve 'makejack.tasks.project-data/project-data)
    params))
 
+(defn ^{:params [:path]} read-version-file
+  "Read the project version from a file with an edn map.
+  By default writes to version.edn."
+  [params]
+  ((requiring-resolve 'makejack.tasks.project-data/read-version-file)
+   params))
+
+(defn ^{:params [:path :version]} write-version-file
+  "Write the current project version to a file with an edn map.
+  By default writes to version.edn."
+  [params]
+  ((requiring-resolve 'makejack.tasks.project-data/write-version-file)
+   params))
+
+(defn ^{:params [:dir :version]} write-version
+  "Write the current project version to project.edn."
+  [params]
+  ((requiring-resolve 'makejack.tasks.project-data/write-version)
+   params))
+
 (defn clean
   "Remove all built files"
   [params]
