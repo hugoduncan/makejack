@@ -16,7 +16,8 @@ You can install makejack as a named tool:
 
 ``` shell
 clj -Ttools install io.github.hugoduncan/makejack \
-'{:git/tag "v0.1.5" :git/sha "49f0357" :deps/root "projects/makejack-jar"}' \
+'{:git/sha "07b8c4f89e3fb821872640141529ed9a8294b006"
+  :deps/root "projects/makejack-jar"}' \
  :as mj
 ```
 
