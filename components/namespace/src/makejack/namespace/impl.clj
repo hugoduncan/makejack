@@ -20,9 +20,10 @@
     (let [options (assoc reader-opts :eof ::eof)
           form    (read options io-reader)]
       (cond
-        (= ::eof form)                nil
-        (namespace-declaration? form) form
-        :else                         (recur)))))
+        (= ::eof form)                        nil
+        (= :sci.impl.parser.edamame/eof form) nil
+        (namespace-declaration? form)         form
+        :else                                 (recur)))))
 
 (defn read-features
   "read options to read conditionals with the :clj feature."
@@ -37,7 +38,9 @@
                        (PushbackReader.
                         (io/reader
                          (fs/file (fs/path path)))))]
-     (read-namespace-declaration reader (read-features features)))))
+     (try
+       (read-namespace-declaration reader (read-features features))
+       (catch Exception _)))))
 
 (defn declared-ns [form]
   (second form))

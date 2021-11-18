@@ -30,9 +30,10 @@
   [params]
   (let [aliases (:aliases params)]
     (binding [b/*project-root* (:dir params ".")]
-      (-> (b/create-basis (select-keys
-                           params
-                           [:aliases :project :root :user :extra]))))))
+      (-> (b/create-basis
+           (select-keys
+            params
+            [:aliases :project :root :user :extra]))))))
 
 (defn paths
   "Return the basis :paths"

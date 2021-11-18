@@ -23,9 +23,16 @@
 (require 'spartan.spec)
 
 (deps/add-deps '{:deps
+                 {org.clojure/tools.namespace
+                  {:git/url "https://github.com/babashka/tools.namespace"
+                   :git/sha "3625153ee66dfcec2ba600851b5b2cbdab8fae6c"}}})
+
+
+(deps/add-deps '{:deps
                  {io.github.clojure/tools.build
-                  {:git/url "https://github.com/babashka/tools.bbuild"
-                   :git/sha "af73f5a1ffe209291aa80215495a7959e1032d39"}}})
+                  {:git/url    "https://github.com/babashka/tools.bbuild"
+                   :git/sha    "af73f5a1ffe209291aa80215495a7959e1032d39"
+                   :exclusions [org.clojure/tools.namespace]}}})
 
 (require 'clojure.tools.build.api)
 (require 'clojure.tools.deps.alpha)
@@ -62,10 +69,13 @@
                       (parse-namespace task-file)
                       str)
                      (assert false "Task file must contain a ns form"))
-                 "makejack.tasks")]
+                 "makejack.tasks")
+        f      (symbol (or (first args) "help"))
+        f      (if (namespace f) f (symbol ns-str (name f)))
+        ns-str (namespace f)]
     {:task-file task-file
      :ns-str    ns-str
-     :f         (or (first args) "help")
+     :f         f
      :args      (into {} (->> args
                               rest
                               (mapv read-or-identity)
@@ -77,6 +87,7 @@
   (if task-file
     (load-file task-file)
     (require 'makejack.tasks))
-  ((resolve (symbol ns-str f)) args))
+  (require (symbol ns-str))
+  ((resolve f) args))
 
 nil

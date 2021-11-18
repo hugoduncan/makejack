@@ -2,6 +2,7 @@
   (:require
    [clojure.tools.build.api :as b]
    [makejack.defaults.api :as defaults]
+   [makejack.deps.api :as deps]
    [makejack.files.api :as files]
    [makejack.verbose.api :as v]))
 
@@ -9,7 +10,7 @@
   "AOT complilation"
   [params]
   (v/println params "compile-clj...")
-  (let [basis     (defaults/basis params)
+  (let [basis     (deps/lift-local-deps (defaults/basis params))
         class-dir (defaults/classes-path params)
         info-map  (files/info-map params (defaults/paths basis))
         _         (assert (some? info-map))
