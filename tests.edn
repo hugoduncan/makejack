@@ -8,6 +8,7 @@
                                   "components/dag/test"
                                   "components/defaults/test"
                                   "components/deps/test"
+                                  "components/deps-file/test"
                                   "components/file-changed/test"
                                   "components/file-hash/test"
                                   "components/file-info/test"

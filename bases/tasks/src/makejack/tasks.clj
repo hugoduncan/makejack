@@ -186,3 +186,19 @@
   [params]
   ((requiring-resolve 'makejack.tasks.changelog/release)
    params))
+
+(defn ^{:params [:aritifact-name [:mvn/version][:git/sha][:git/tag][:dir]]}
+  update-dep
+  "Update a dependency in a deps.edn file.
+
+  Options
+    :dir             path to the deps.edn file
+    :artifact-name   the name of the dependency to update
+    :git/sha         new value for the git sha
+    :git/tag         new value for the git tag
+    :mvn/version     new value for the maven version
+
+  Other tags in the coordinate map should work too."
+  [params]
+  ((requiring-resolve 'makejack.tasks.update-dep/update-dep)
+   params))

@@ -114,7 +114,8 @@
       (spit f new-s)
       (throw (ex-info
               "Failed to write project.edn"
-              {:path (str f)})))))
+              {:path (str f)})))
+    params))
 
 ;;; Bump Version
 
