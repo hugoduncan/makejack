@@ -30,11 +30,11 @@
 
 (defn add-files
   "Add files to the info-map."
-  [info-map paths]
+  [info-map file-paths]
   (reduce
    add-file
    info-map
-   paths))
+   file-paths))
 
 (defn remove-files
   "Remove files from the info map."
@@ -64,21 +64,24 @@
 
 
 (defn files-in-dir [path]
-  (filterv fs/regular-file? (fs/glob path "**")))
+  (when (fs/directory? path)
+    (filterv fs/regular-file? (fs/glob path "**"))))
 
-(defn add-path-info
-  [info-map path]
-  (add-files
-   info-map
-   (filterv fs/regular-file? (fs/glob path "**"))))
+(defn add-dir
+  [info-map dir-path]
+  []
+  (add-files info-map (files-in-dir dir-path)))
 
 (defn info-map
   "Return a new file info map."
-  [params paths]
+  [params dir-paths]
   (reduce
-   add-path-info
+   add-dir
    {:ns-dag (dag/graph)}
-   (mapv #(fs/path (:dir params ".") %) paths)))
+   (mapv #(if (fs/relative? %)
+            (fs/path (:dir params ".") %)
+            %)
+         dir-paths)))
 
 (defn topo-namespaces
   "Return namespaces in topological order."
@@ -87,6 +90,7 @@
         nses     (keys ns->path)
         ns-dag   (:ns-dag info-map)]
     (assert (some? ns-dag))
+    (assert (some? ns->path) info-map)
     (->> (dag/topo-sort (:child-edges ns-dag) (:parent-edges ns-dag) nses)
          (filterv ns->path))))
 
