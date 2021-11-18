@@ -10,6 +10,15 @@ tasks.
 Start your project using the built in tasks, and as your needs grow,
 easily customise the tasks to make them your own.
 
+# Install as a Babashka script
+
+If you have babashka 0.6.6 or greater,
+
+``` shell
+wget https://raw.githubusercontent.com/hugoduncan/makejack/main/mj
+chmod +x mj
+```
+
 # Install as a Named Clojure CLI Tool
 
 You can install makejack as a named tool:
