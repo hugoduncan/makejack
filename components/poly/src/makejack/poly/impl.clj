@@ -42,7 +42,6 @@
 
 (defn resolve-project
   [ws spec]
-  (prn :spec spec)
   (cond
     (nil? spec)
     (prn :changed-projects)
@@ -58,7 +57,6 @@
   [ws spec]
   (let [ws    (or ws {})
         specs (mapv symbol (remove str/blank? (str/split (str spec) #":")))]
-    (prn :specs specs)
     (cond
       (= 'project (first specs))
       (resolve-project ws (second specs))
