@@ -20,7 +20,7 @@
                   (fn [info-map dep-ns]
                     (update info-map :ns-dag dag/add-edge p-ns dep-ns))
                   info-map
-                  (:require info))
+                  (mapv :namespace (:require info)))
         info-map (reduce
                   (fn [info-map dep-ns]
                     (update info-map :ns-dag dag/add-edge p-ns dep-ns))

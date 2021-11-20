@@ -13,11 +13,32 @@
           "files"))
 
 (deftest info-map-test
-  (let [infos (files/info-map
-               {:dir dir}
-               [(fs/path "src")])]
-    (is infos)
-    (is (= (set '[makejack.files.impl makejack.files.api])
-           (set (files/top-level-nses infos))))
-    (is (= (set '[makejack.files.impl makejack.files.api])
-           (set (files/topo-namespaces infos))))))
+  (testing "namespace topo sort"
+    (testing "with two files"
+      (let [infos (files/info-map
+                   {:dir dir}
+                   [(fs/path "src")])]
+        (is infos)
+        (is (= (set '[makejack.files.api])
+               (set (files/top-level-nses infos))))
+        (is (= '[makejack.files.api makejack.files.impl]
+               (files/topo-namespaces infos))))))
+  (testing "with multiple files"
+    (let [infos (files/info-map
+                 {:dir (:ws-dir ws)}
+                 [(fs/path "components/files/src")
+                  (fs/path "components/file-info/src")
+                  (fs/path "components/namespace/src")
+                  (fs/path "components/dag/src")])]
+      (is infos)
+      (is (= (set '[makejack.files.api])
+             (set (files/top-level-nses infos))))
+      (is (= '[makejack.files.api
+               makejack.files.impl
+               makejack.file-info.api
+               makejack.dag.api
+               makejack.file-info.impl
+               makejack.dag.impl
+               makejack.namespace.api
+               makejack.namespace.impl]
+             (files/topo-namespaces infos))))))
