@@ -32,7 +32,7 @@
 
 (deps/add-deps
  '{:deps {io.github.hugoduncan/makejack
-          {:git/sha    "c6ca7ffdb207da8d78744bb849c0d889e5b81cd4"
+          {:git/sha    "6966696979c9b9c0c97e54f82a5d4096e4105240"
            :deps/root  "projects/makejack-jar"
            :exclusions [io.github.clojure/tools.build]}}})
 
