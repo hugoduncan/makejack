@@ -7,7 +7,7 @@
   {:extra-paths ["development/src"]
    :extra-deps
    {ageneau/keepachangelog        {:mvn/version "0.1.0"}
-    babashka/fs                   {:mvn/version "0.1.0"}
+    babashka/fs                   {:mvn/version "0.1.1"}
     io.github.clojure/tools.build {:git/tag "v0.6.6" :git/sha "4d41c26"}
     org.clojure/clojure           {:mvn/version "1.10.3"}
     polylith/clj-api

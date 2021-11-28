@@ -2,7 +2,8 @@
 
 ;; Standalone script for running makejack.
 
-;; By default, uses makejack's built in tasks.
+;; By default, uses makejack's built in tasks, or tasks from build.clj if it
+;; exists.
 
 ;; To use tasks from a different namespace,
 ;; pass `--tasks <path-to-ns-defining-file>`.
@@ -11,16 +12,6 @@
 (require '[babashka.fs :as fs])
 (require '[babashka.deps :as deps])
 (require '[babashka.pods :as pods])
-
-(pods/load-pod "tools-deps-native")
-
-(deps/add-deps
- '{:deps
-   {borkdude/spartan.spec
-    {:git/url "https://github.com/borkdude/spartan.spec"
-     :sha     "12947185b4f8b8ff8ee3bc0f19c98dbde54d4c90"}}})
-
-(require 'spartan.spec)
 
 (deps/add-deps '{:deps
                  {org.clojure/tools.namespace
@@ -31,16 +22,17 @@
 (deps/add-deps '{:deps
                  {io.github.clojure/tools.build
                   {:git/url    "https://github.com/babashka/tools.bbuild"
-                   :git/sha    "af73f5a1ffe209291aa80215495a7959e1032d39"
+                   :git/sha    "eac3ebb072fb2c4deab39850f2e73f950a3e8503"
                    :exclusions [org.clojure/tools.namespace]}}})
 
+(pods/load-pod 'org.babashka/tools-deps-native "0.0.5")
+(require 'spartan.spec)
 (require 'clojure.tools.build.api)
 (require 'clojure.tools.deps.alpha)
 
 (deps/add-deps
  '{:deps {io.github.hugoduncan/makejack
-          #_ {:local/root "projects/makejack-jar"}
-          {:git/sha    "a66cb5e37420872bfa870aaf7b022ce39b60b05b"
+          {:git/sha    "c6ca7ffdb207da8d78744bb849c0d889e5b81cd4"
            :deps/root  "projects/makejack-jar"
            :exclusions [io.github.clojure/tools.build]}}})
 

@@ -4,28 +4,47 @@
 
 Build and maintain your clojure projects.
 
-Makejack is a clojure CLI tool, and a library for writing you own build
-tasks.
+## Status
+
+Early alpha. No releases at the moment.
+
+
+## Intro
+
+Makejack is a clojure CLI tool, a babashka script, and a library for
+writing you own build tasks.
 
 Start your project using the built in tasks, and as your needs grow,
 easily customise the tasks to make them your own.
 
-# Install as a Babashka script
+You specify project name and version on the command line, or put them in
+a `project.edn` file.
 
-If you have babashka 0.6.6 or greater,
+``` clojure
+{:name my.org/my-project
+ :version "0.0.1"}
+```
+
+With a `project.edn` file, the build targets should work without
+passing any agruments.
+
+
+## Install as a Babashka script
+
+If you have babashka 0.6.5 or greater,
 
 ``` shell
 wget https://raw.githubusercontent.com/hugoduncan/makejack/main/mj
 chmod +x mj
 ```
 
-# Install as a Named Clojure CLI Tool
+## Install as a Named Clojure CLI Tool
 
 You can install makejack as a named tool:
 
 ``` shell
 clj -Ttools install io.github.hugoduncan/makejack \
-'{:git/sha "a66cb5e37420872bfa870aaf7b022ce39b60b05b"
+'{:git/sha "c6ca7ffdb207da8d78744bb849c0d889e5b81cd4"
 :deps/root "projects/makejack-jar"}' \
  :as mj
 ```
@@ -36,13 +55,6 @@ It can then be called as:
 clj -Tmj help
 ```
 
-Create a `project.edn` file, and the build targets should work.
-
-``` clojure
-{:name my.org/my-project
- :version "0.0.1"}
-```
-
 For example, build a jar with:
 
 ``` shell
@@ -50,7 +62,7 @@ clj -Tmj jar
 ```
 
 
-# Install as a library
+## Install as a library
 
 You can add makejack to your `deps.edn`, wherever you configure your
 build tools.
@@ -60,16 +72,16 @@ org.hugoduncan/makejack
 {:git/tag "v0.1.5" :git/sha "49f0357" :deps/root "projects/makejack-jar"}
 ```
 
-## `makejack.target-doc`
+### `makejack.target-doc`
 
 Use doc strings and meta on your build tasks to provide a `help` command
 for your build.
 
-## `makejack.defaults`
+### `makejack.defaults`
 
 Provide defaults for filesystem layouts, filenames, etc.
 
-## `makejack.project-data`
+### `makejack.project-data`
 
 Manage the project build data map, possibly in a project.edn file.
 
@@ -79,10 +91,9 @@ The :version is a dotted string, and can contain a computed component,
 specified as a :keyword.  Currently :git-rev-count and :reverse-date are
 supported.
 
-## `makejack.poly`
+### `makejack.poly`
 
 Build helpers for polylith (like) monorepo projects.
-
 
 
 # Development
