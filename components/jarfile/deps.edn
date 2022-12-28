@@ -4,7 +4,8 @@
  {:test
   {:extra-paths ["test"]
    :extra-deps  {io.github.clojure/tools.build
-                 {:git/tag "v0.6.6" :git/sha "4d41c26"}}}
+                 {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+                 }}
   :build {:deps
           {makejack/tasks {:local/root "../../bases/tasks"}}
           :ns-default makejack.tasks

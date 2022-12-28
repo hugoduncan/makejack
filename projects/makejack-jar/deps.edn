@@ -1,8 +1,8 @@
 {:deps
  {ageneau/keepachangelog        {:mvn/version "0.1.0"}
-  babashka/fs                   {:mvn/version "0.1.0"}
-  io.github.clojure/tools.build {:git/tag "v0.6.6" :git/sha "4d41c26"}
-  org.clojure/clojure           {:mvn/version "1.10.3"}
+  babashka/fs                   {:mvn/version "0.2.12"}
+  io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+  org.clojure/clojure           {:mvn/version "1.11.1"}
   polylith/clj-api
   {:git/url   "https://github.com/polyfy/polylith.git"
    :sha       "57e0217762c166a92b007736c198d100642e22c1"
@@ -31,15 +31,19 @@
  :tools/usage {:ns-default makejack.tasks}
 
  :aliases
- {:test {:extra-paths []
-         :extra-deps  {}}
+ {:test {:extra-deps
+         {polylith-kaocha/kaocha-runner
+          {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
+           :git/tag   "v0.8.2"
+           :git/sha   "d1fcd40"
+           :deps/root "projects/kaocha-runner"}}}
   :build
   {:deps
    {makejack/tasks                {:local/root "../../bases/tasks"}
     ageneau/keepachangelog        {:mvn/version "0.1.0"}
-    babashka/fs                   {:mvn/version "0.1.0"}
-    io.github.clojure/tools.build {:git/tag "v0.6.6" :git/sha "4d41c26"}
-    org.clojure/clojure           {:mvn/version "1.10.3"}
+    babashka/fs                   {:mvn/version "0.2.12"}
+    io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+    org.clojure/clojure           {:mvn/version "1.11.1"}
     polylith/clj-api
     {:git/url   "https://github.com/polyfy/polylith.git"
      :sha       "57e0217762c166a92b007736c198d100642e22c1"

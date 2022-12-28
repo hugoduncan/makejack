@@ -22,7 +22,7 @@
 (deps/add-deps '{:deps
                  {io.github.clojure/tools.build
                   {:git/url    "https://github.com/babashka/tools.bbuild"
-                   :git/sha    "eac3ebb072fb2c4deab39850f2e73f950a3e8503"
+                   :git/sha    "931e22644308bffae6d3e2ed741e850ed6db708d"
                    :exclusions [org.clojure/tools.namespace]}}})
 
 (pods/load-pod 'org.babashka/tools-deps-native "0.0.5")

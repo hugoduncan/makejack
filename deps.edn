@@ -4,17 +4,17 @@
  :jvm-opts ["-Dclojure.main.report=stderr"]
  :aliases
  {:dev
-  {:extra-paths ["development/src"]
+  {:extra-paths []
    :extra-deps
    {ageneau/keepachangelog        {:mvn/version "0.1.0"}
-    babashka/fs                   {:mvn/version "0.1.1"}
-    io.github.clojure/tools.build {:git/tag "v0.6.6" :git/sha "4d41c26"}
-    org.clojure/clojure           {:mvn/version "1.10.3"}
+    babashka/fs                   {:mvn/version "0.2.12"}
+    io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+    org.clojure/clojure           {:mvn/version "1.11.1"}
     polylith/clj-api
     {:git/url   "https://github.com/polyfy/polylith.git"
      :sha       "57e0217762c166a92b007736c198d100642e22c1"
      :deps/root "projects/api"}
-    rewrite-clj/rewrite-clj       {:mvn/version "1.0.699-alpha"}
+    rewrite-clj/rewrite-clj       {:mvn/version "1.1.45"}
     makejack/tasks                {:local/root "bases/tasks"}
     makejack/changelog            {:local/root "components/changelog"}
     makejack/dag                  {:local/root "components/dag"}
@@ -55,7 +55,7 @@
                        "components/project-data/test"
                        "components/target-doc/test"
                        "components/verbose/test"]
-         :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
+         :extra-deps  {lambdaisland/kaocha {:mvn/version "1.71.1119"}}
          :exec-fn     kaocha.runner/exec-fn
          :exec-args   {}
          :jvm-opts    ["-Dclojure.main.report=stderr"]}
@@ -72,14 +72,27 @@
                       #_ {:local/root "../../../src/polylith/projects/poly"}
                       {:git/url   "https://github.com/polyfy/polylith"
                        :sha       "57e0217762c166a92b007736c198d100642e22c1"
-                       :deps/root "projects/poly"}}}
+                       :deps/root "projects/poly"}
+
+                      polylith-kaocha/test-runner
+                      {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
+                       :git/tag   "v0.8.2"
+                       :git/sha   "d1fcd40"
+                       :deps/root "projects/test-runner"}
+                      #_#_polylith-kaocha/kaocha-wrapper
+                      {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
+                       :git/tag   "v0.8.2"
+                       :git/sha   "d1fcd40"
+                       :deps/root "projects/kaocha-wrapper"}}}
 
   :build
-  {:deps
-   {makejack/tasks {:local/root "bases/tasks"}}
-   :ns-default build
-   :exec-fn    help
-   :jvm-opts   ["-Dclojure.main.report=stderr"]}
+  {:deps        {makejack/tasks {:local/root "bases/tasks"}}
+   :extra-paths ["."]
+   :ns-default  build
+   :exec-fn     help
+   :jvm-opts    ["-Dclojure.main.report=stderr"]}
 
-  :cljfmt {:deps      {cljfmt/cljfmt {:mvn/version "0.8.0"}}
-           :main-opts ["-m" "cljfmt.main" "check"]}}}
+  :cljfmt   {:deps      {cljfmt/cljfmt {:mvn/version "0.9.0"}}
+             :main-opts ["-m" "cljfmt.main" "check"]}
+  :outdated {:deps      {com.github.liquidz/antq {:mvn/version "RELEASE"}}
+             :main-opts ["-m" "antq.core"]}}}

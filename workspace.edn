@@ -1,10 +1,16 @@
-{:top-namespace "makejack"
- :interface-ns "api"
+{:top-namespace        "makejack"
+ :interface-ns         "api"
  :default-profile-name "default"
- :compact-views #{}
- :vcs {:name "git"
-       :auto-add false}
- :tag-patterns {:stable "stable-*"
-                :release "v[0-9]*"}
- :projects {"development" {:alias "dev"}
-            "makejack-jar" {:alias "jar"}}}
+ :compact-views        #{}
+ :vcs                  {:name     "git"
+                        :auto-add false}
+ :tag-patterns         {:stable  "stable-*"
+                        :release "v[0-9]*"}
+ :test                 {:create-test-runner polylith-kaocha.test-runner/create}
+ :projects
+ {"development"
+  {:alias "dev"
+   :test  {:create-test-runner polylith-kaocha.test-runner/create}}
+  "makejack-jar"
+  {:alias "jar"
+   :test  {:create-test-runner polylith-kaocha.test-runner/create}}}}
