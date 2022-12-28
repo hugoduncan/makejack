@@ -12,5 +12,7 @@
     (b/javac
      {:class-dir  (defaults/classes-path params)
       :basis      basis
-      :src-dirs   (:java-paths basis)
+      :src-dirs   (reduce into []
+                          [(:java-paths params)
+                           (:java-paths basis)])
       :javac-opts (:javac-opts params)})))

@@ -131,8 +131,9 @@
   ((requiring-resolve 'makejack.tasks.compile-clj/compile-clj)
    (normalise-aliases params)))
 
-(defn javac
-  "javaac compile java classes"
+(defn ^{:params '[:java-paths]}
+  javac
+  "javac compile java classes."
   [params]
   ((requiring-resolve 'makejack.tasks.javac/javac)
    (normalise-aliases params)))
