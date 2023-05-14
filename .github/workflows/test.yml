@@ -22,22 +22,23 @@ jobs:
         java-version: '8'
 
     - name: Install clojure tools
-      uses: DeLaGuardo/setup-clojure@3.5
+      uses: DeLaGuardo/setup-clojure@10.3
       with:
         cli: 1.10.3.1029
+         bb: 1.3.179
 
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: poly check
+    - name: check
       run: |
         set -x
-        clojure -M:poly check
+        clojure -Srepro -M:poly check
 
-    - name: poly test :all
+    - name: test
       run: |
         set -x
-        clojure -M:poly test :all
+        clojure -Srepro -M:poly test :all
 
     - name: build and install jar
       run: |
@@ -48,3 +49,8 @@ jobs:
         clojure -T:build clean
         clojure -T:build jar
         clojure -T:build install
+
+    - name: invoke
+      run: |
+        set -x
+        ./mj help
