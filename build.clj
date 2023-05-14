@@ -42,8 +42,9 @@
    (tasks/poly-main {:aliases [:cljfmt] :args ["check"]})))
 
 (defn ^{:params []} test
-  "Run `poly test` on workspace.
+  "Run `clojure -Srepro -M:poly test` on workspace.
 
-  Note: you can run `poly test` directly."
+  Note: running `poly test` directly doesn't pick up the kaocha runner."
   [_params]
-  (b/process {:command-args ["poly" "test"] :out :inherit}))
+  (b/process
+   {:command-args ["clojure" "-Srepro" "-M:poly" "test"] :out :inherit}))

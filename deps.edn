@@ -12,7 +12,7 @@
     org.clojure/clojure           {:mvn/version "1.11.1"}
     polylith/clj-api
     {:git/url   "https://github.com/polyfy/polylith.git"
-     :sha       "57e0217762c166a92b007736c198d100642e22c1"
+     :sha       "c7eb2730c195806b949be088fdc674434ce8d83c"
      :deps/root "projects/api"}
     rewrite-clj/rewrite-clj       {:mvn/version "1.1.45"}
     makejack/tasks                {:local/root "bases/tasks"}
@@ -68,25 +68,21 @@
                           :test-ns-regex [".*-test"]}}
 
   :poly {:main-opts  ["-m" "polylith.clj.core.poly-cli.core"]
-         :extra-deps {polyfy/polylith
-                      #_ {:local/root "../../../src/polylith/projects/poly"}
+         :extra-deps {polylith/clj-poly
                       {:git/url   "https://github.com/polyfy/polylith"
-                       :sha       "57e0217762c166a92b007736c198d100642e22c1"
+                       :git/sha   "c7eb2730c195806b949be088fdc674434ce8d83c"
                        :deps/root "projects/poly"}
 
                       polylith-kaocha/test-runner
                       {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
                        :git/tag   "v0.8.2"
                        :git/sha   "d1fcd40"
-                       :deps/root "projects/test-runner"}
-                      #_#_polylith-kaocha/kaocha-wrapper
-                      {:git/url   "https://github.com/imrekoszo/polylith-kaocha"
-                       :git/tag   "v0.8.2"
-                       :git/sha   "d1fcd40"
-                       :deps/root "projects/kaocha-wrapper"}}}
+                       :deps/root "projects/test-runner"}}}
 
   :build
-  {:deps        {makejack/tasks {:local/root "bases/tasks"}}
+  {:deps
+   {makejack/tasks                       {:local/root "bases/tasks"}
+    com.github.clj-easy/graal-build-time {:mvn/version "0.1.4"}}
    :extra-paths ["."]
    :ns-default  build
    :exec-fn     help
