@@ -1,7 +1,7 @@
 {:paths   ["src"]
  :deps
- {io.github.clojure/tools.build {:git/tag "v0.6.6" :git/sha "4d41c26"}
-  babashka/fs                   {:mvn/version "0.1.0"}
+ {io.github.clojure/tools.build {:git/tag "v0.9.0" :git/sha "8c93e0c"}
+  babashka/fs                   {:mvn/version "0.2.12"}
   makejack/changelog            {:local/root "../../components/changelog"}
   makejack/dag                  {:local/root "../../components/dag"}
   makejack/defaults             {:local/root "../../components/defaults"}

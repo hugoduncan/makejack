@@ -2,7 +2,7 @@
  :deps    {}
  :aliases {:test
            {:extra-paths ["test"]
-            :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.945"}}
+            :extra-deps  {lambdaisland/kaocha {:mvn/version "1.71.1119"}}
             :exec-fn     kaocha.runner/exec-fn
             :exec-args   {}}
            :build

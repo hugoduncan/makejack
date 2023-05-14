@@ -8,6 +8,28 @@
 ;; To use tasks from a different namespace,
 ;; pass `--tasks <path-to-ns-defining-file>`.
 
+;; workaround to enable loading of polylith clj api
+(require 'clojure.pprint)
+(intern 'clojure.pprint 'code-dispatch clojure.pprint/simple-dispatch)
+
+(let [orig-ns (ns-name *ns*)]
+  (ns polylith.clj.core.common.class-loader)
+  (defn create-class-loader [_ _])
+  (defn eval-in [_ _])
+  (ns borkdude.dynaload)
+  (defn dynaload [_ _])
+  (ns malli.core)
+  (defn explain [_ _])
+  (ns malli.util)
+  (ns malli.error)
+  (defn humanize [_])
+  (ns polylith.clj.core.lib.maven-dep)
+  (defn latest [_ _ _])
+
+  (ns puget.printer)
+  (defn cprint [_ _])
+  (in-ns orig-ns))
+
 
 (require '[babashka.fs :as fs])
 (require '[babashka.deps :as deps])
@@ -16,32 +38,35 @@
 (deps/add-deps '{:deps
                  {org.clojure/tools.namespace
                   {:git/url "https://github.com/babashka/tools.namespace"
-                   :git/sha "3625153ee66dfcec2ba600851b5b2cbdab8fae6c"}}})
+                   :git/tag "tools.namespace-1.1.0"
+                   :git/sha "56088a1"}}})
 
 
 (deps/add-deps '{:deps
                  {io.github.clojure/tools.build
                   {:git/url    "https://github.com/babashka/tools.bbuild"
-                   :git/sha    "eac3ebb072fb2c4deab39850f2e73f950a3e8503"
+                   :git/sha    "a3c0723b6250756eaeed532ade5d6474df24e80a"
                    :exclusions [org.clojure/tools.namespace]}}})
 
-(pods/load-pod 'org.babashka/tools-deps-native "0.0.5")
-(require 'spartan.spec)
+(pods/load-pod 'org.babashka/tools-deps-native "0.1.0")
+
+(require 'clojure.edn)
 (require 'clojure.tools.build.api)
-(require 'clojure.tools.deps.alpha)
+(require 'clojure.tools.deps)
 
 (deps/add-deps
  '{:deps {io.github.hugoduncan/makejack
-          {:git/sha    "c6ca7ffdb207da8d78744bb849c0d889e5b81cd4"
+          {:git/sha    "6966696979c9b9c0c97e54f82a5d4096e4105240"
            :deps/root  "projects/makejack-jar"
            :exclusions [io.github.clojure/tools.build]}}})
+
 
 (defn parse-namespace [path]
   (-> (clojure.edn/read-string (slurp path))
       second))
 
 (defn read-or-identity [x]
-  (try (edn/read-string x)
+  (try (clojure.edn/read-string x)
        (catch Exception _
          x)))
 

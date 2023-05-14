@@ -6,8 +6,7 @@ Build and maintain your clojure projects.
 
 ## Status
 
-Early alpha. No releases at the moment.
-
+Early alpha. Breaking changes will be made. No releases at the moment.
 
 ## Intro
 
@@ -38,13 +37,15 @@ wget https://raw.githubusercontent.com/hugoduncan/makejack/main/mj
 chmod +x mj
 ```
 
+To see the available tasks, run `mj`.
+
 ## Install as a Named Clojure CLI Tool
 
 You can install makejack as a named tool:
 
 ``` shell
 clj -Ttools install io.github.hugoduncan/makejack \
-'{:git/sha "c6ca7ffdb207da8d78744bb849c0d889e5b81cd4"
+'{:git/sha "6966696979c9b9c0c97e54f82a5d4096e4105240"
 :deps/root "projects/makejack-jar"}' \
  :as mj
 ```
@@ -69,7 +70,8 @@ build tools.
 
 ```clojure
 org.hugoduncan/makejack
-{:git/tag "v0.1.5" :git/sha "49f0357" :deps/root "projects/makejack-jar"}
+{:git/sha "6966696979c9b9c0c97e54f82a5d4096e4105240"
+ :deps/root "projects/makejack-jar"}
 ```
 
 ### `makejack.target-doc`
